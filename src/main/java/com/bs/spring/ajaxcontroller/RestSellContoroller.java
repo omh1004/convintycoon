@@ -3,16 +3,15 @@ package com.bs.spring.ajaxcontroller;
 
 import com.bs.spring.member.model.dto.Goods;
 import com.bs.spring.member.model.dto.Member;
+import com.bs.spring.member.model.dto.Ordering;
 import com.bs.spring.member.model.service.GoodsService;
 import com.bs.spring.member.model.service.GoodsServiceImpl;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,21 +36,41 @@ public class RestSellContoroller {
 
         private final GoodsService goodsService;
 
+        // 발주전체화면의 경우,
+        // 상품테이블 상품번호 외래키로 하여 창고테이블의 상품번호와 조인함
+        // 발주전체
 
-        @RequestMapping("/selectAllPrd")
-        public ResponseEntity<List<Goods>> selectAllPrd(@RequestBody Goods goods){
-                log.info(" 요청 received: " + goods);
-                List<Goods> result = goodsService.selectAllPrd(goods);
-                log.info(" 1. 상품전체조회: " + result);
+        @GetMapping("/selectAllPrd")
+        public ResponseEntity<List<Ordering>> selectAllPrd(){
+                log.info(" 요청 received: " );
+                List<Ordering> result = goodsService.selectAllPrd();
+
 
                 if (result == null) {
                         log.info(" 1. 상품전체조회");
                         return ResponseEntity.notFound().build();
                 } else {
-//
                         return ResponseEntity.status(HttpStatus.OK).body(result);
                 }
         }
+//
+//                 2. 상품 발주 ->창고, 발주 테이블 insert
+//        @RequestMapping("/insertOrdering")
+//        public ResponseEntity insertOrdering(@RequestBody List<Goods> goods){
+//                log.info(" 요청 received: " + goods);
+//                int result = goodsService.insertOrdering(goods);
+//                log.info(" 1. 상품전체조회: " + result);
+//
+//                if (result <= 0) {
+//                        log.info("발주등록 실패");
+//                        return ResponseEntity.notFound().build();
+//                } else {
+//                        return ResponseEntity.status(HttpStatus.OK).body(result);
+//                }
+//}
+
+
+
 
 
 }
