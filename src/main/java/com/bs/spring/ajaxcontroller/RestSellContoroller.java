@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("ordering")
+@RequestMapping("/ordering")
 @RequiredArgsConstructor
 @Slf4j
 public class RestSellContoroller {
@@ -40,15 +40,15 @@ public class RestSellContoroller {
 
         @RequestMapping("/selectAllPrd")
         public ResponseEntity<List<Goods>> selectAllPrd(@RequestBody Goods goods){
-                log.info("아이디찾기 요청 received: " + goods);
+                log.info(" 요청 received: " + goods);
                 List<Goods> result = goodsService.selectAllPrd(goods);
-                log.info("아이디찾기 성공: " + result);
+                log.info(" 1. 상품전체조회: " + result);
 
                 if (result == null) {
-                        log.info("로그인 실패: 회원 정보를 찾을 수 없음");
+                        log.info(" 1. 상품전체조회");
                         return ResponseEntity.notFound().build();
                 } else {
-//                        log.info("로그인 성공: " + result.getUserId());
+//
                         return ResponseEntity.status(HttpStatus.OK).body(result);
                 }
         }
