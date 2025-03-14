@@ -62,22 +62,18 @@ public class RestApiController {
 //        return board;
 //    }
         @PostMapping("/loginMember")
-        public CompletableFuture<ResponseEntity<?>> loginMember(@RequestBody Member member){
+        public ResponseEntity<Member> loginMember(@RequestBody Member member){
             log.info("로그인 요청 received: " + member);
 
-            return CompletableFuture.supplyAsync(() -> {
-                Member result = memberService.findMemberById(member);
+            Member result = memberService.findMemberById(member);
 
-                if (result == null) {
-                    log.info("로그인 실패: 회원 정보를 찾을 수 없음");
-                    // 유효성검사 실패
-                    return ResponseEntity.notFound().build();
-                } else {
-                    log.info("로그인 성공: " + result.getUserId());
-                    // DB 조회 성공
-                    return ResponseEntity.status(HttpStatus.OK).body(result);
-                }
-            });
+            if (result == null) {
+                log.info("로그인 실패: 회원 정보를 찾을 수 없음");
+                return ResponseEntity.notFound().build();
+            } else {
+                log.info("로그인 성공: " + result.getUserId());
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            }
         }
 
     @PostMapping("/findId")
@@ -85,39 +81,34 @@ public class RestApiController {
         log.info("아이디찾기 요청 received: " + member);
         Member result = memberService.findId(member);
         log.info("아이디찾기 성공: " + result);
-//            if (result == null) {
-//                log.info("아이디찾기 실패");
-//                // 유효성검사 실패
-//                return result;
-//            } else {
-                log.info("아이디찾기 성공: " + result.getUserId());
-//                // DB 조회 성공
-//                log.info("result:::"+result);
-//                return ResponseEntity.status(HttpStatus.OK).body(result);
-//            }
 
-                return ResponseEntity.status(HttpStatus.OK).body(result);
-//        return result;
+        if (result == null) {
+            log.info("로그인 실패: 회원 정보를 찾을 수 없음");
+            return ResponseEntity.notFound().build();
+        } else {
+            log.info("로그인 성공: " + result.getUserId());
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        }
      }
 
 
     @PostMapping("/findPwd")
-    public CompletableFuture<ResponseEntity<?>> findPwd(@RequestBody Member member){
+    public ResponseEntity<Member> findPwd(@RequestBody Member member){
         log.info("로그인 요청 received: " + member);
 
-        return CompletableFuture.supplyAsync(() -> {
+
             Member result = memberService.findPwd(member);
 
             if (result == null) {
-                log.info("아이디찾기 실패");
+                log.info("비밀번호찾기 실패");
                 // 유효성검사 실패
                 return ResponseEntity.notFound().build();
             } else {
-                log.info("아이디찾기 성공: " + result.getUserId());
+                log.info("비밀번호찾기 성공: " + result.getUserId());
                 // DB 조회 성공
                 return ResponseEntity.status(HttpStatus.OK).body(result);
             }
-        });
+
     }
 
 
