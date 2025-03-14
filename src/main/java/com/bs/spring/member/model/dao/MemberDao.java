@@ -8,7 +8,11 @@ import java.util.List;
 
 
 public interface MemberDao {
-    Member findMemberById(SqlSession session, String id);
+    Member findMemberById(SqlSession session, Member member);
 
     int saveMember(SqlSession session, Member member);
+
+    Member findId(SqlSession session,Member member);
+
+    Member findPwd(SqlSession session, Member member);
 }

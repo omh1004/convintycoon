@@ -17,7 +17,7 @@
     </Appenders>
     <Loggers>
         <!-- 출력대상과 출력 leve을 설정 -->
-        <Logger name="com.bs.spring" level="debug">
+        <Logger name="com.bs.spring" level="INFO">
             <AppenderRef ref="rollingFile"/>
         </Logger>
         <Logger name="org.springframework.context" level="INFO"/>

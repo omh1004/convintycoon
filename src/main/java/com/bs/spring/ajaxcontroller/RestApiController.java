@@ -5,11 +5,14 @@ import com.bs.spring.member.model.dto.Member;
 import com.bs.spring.member.model.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api")
@@ -22,19 +25,26 @@ public class RestApiController {
 //
 
      @PostMapping("/enrollMember")
-     public String enrollMember(
-             @RequestParam(value = "userId" , required = false) String userId,
-             @RequestParam(value = "password" , required = false) String password,
-             @RequestParam(value = "email" , required = false) String email,
-             @RequestParam(value = "nick" , required = false) String nick,
-             @RequestParam(value = "Member", required = false) Member member
+     public ResponseEntity<?> enrollMember(
+             @RequestBody Member member
+//             @RequestBody String userId,
+//             @RequestBody String password,
+//             @RequestBody String email,
+//             @RequestBody String nick
+//             @RequestParam(value = "Member", required = false) Member member
      ){
+         log.info("member start"+member);
+//         log.info("userId"+ userId.toString());
+         //log.info("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡasdfaasdfasdfadss"+"nick: "+nick.toString()+"userId: "+userId.toString()+"password: "+password.toString()+"email: "+email.toString());
 
-         System.out.println("asdfaasdfasdfadss"+"nick"+nick+"userId"+userId+"password"+password+"email"+email);
+//         System.out.println("asdfaasdfasdfadss"+"nick"+nick+"userId"+userId+"password"+password+"email"+email);
 
-          memberService.saveMember(member);
+         memberService.saveMember(member);
 
-         return "회원가입완료";
+
+
+//       log.info("meeee:"+member1.toString());
+         return ResponseEntity.status(HttpStatus.OK).body("그냥 성공");
      }
 
 //    @GetMapping("/boards")
@@ -51,6 +61,67 @@ public class RestApiController {
 //        Board board = boardService.findBoardById(boardNo);
 //        return board;
 //    }
+        @PostMapping("/loginMember")
+        public CompletableFuture<ResponseEntity<?>> loginMember(@RequestBody Member member){
+            log.info("로그인 요청 received: " + member);
+
+            return CompletableFuture.supplyAsync(() -> {
+                Member result = memberService.findMemberById(member);
+
+                if (result == null) {
+                    log.info("로그인 실패: 회원 정보를 찾을 수 없음");
+                    // 유효성검사 실패
+                    return ResponseEntity.notFound().build();
+                } else {
+                    log.info("로그인 성공: " + result.getUserId());
+                    // DB 조회 성공
+                    return ResponseEntity.status(HttpStatus.OK).body(result);
+                }
+            });
+        }
+
+    @PostMapping("/findId")
+    public ResponseEntity<Member> findId(@RequestBody Member member) {
+        log.info("아이디찾기 요청 received: " + member);
+        Member result = memberService.findId(member);
+        log.info("아이디찾기 성공: " + result);
+//            if (result == null) {
+//                log.info("아이디찾기 실패");
+//                // 유효성검사 실패
+//                return result;
+//            } else {
+                log.info("아이디찾기 성공: " + result.getUserId());
+//                // DB 조회 성공
+//                log.info("result:::"+result);
+//                return ResponseEntity.status(HttpStatus.OK).body(result);
+//            }
+
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+//        return result;
+     }
+
+
+    @PostMapping("/findPwd")
+    public CompletableFuture<ResponseEntity<?>> findPwd(@RequestBody Member member){
+        log.info("로그인 요청 received: " + member);
+
+        return CompletableFuture.supplyAsync(() -> {
+            Member result = memberService.findPwd(member);
+
+            if (result == null) {
+                log.info("아이디찾기 실패");
+                // 유효성검사 실패
+                return ResponseEntity.notFound().build();
+            } else {
+                log.info("아이디찾기 성공: " + result.getUserId());
+                // DB 조회 성공
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            }
+        });
+    }
+
+
+
 //
 //    //@ResponseEntity클래스를 이용해서 응답처리할 수 있음
 //    @PostMapping("/member")

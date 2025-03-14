@@ -32,24 +32,24 @@ public class MyWebAppConfig implements WebMvcConfigurer {
     }
 
 
-//    @Bean
-    public HandlerExceptionResolver exceptionResolver() {
-        //에러페이지를 연결해 주는 Resolver
-        SimpleMappingExceptionResolver exceptionResolver
-                = new SimpleMappingExceptionResolver();
-
-        Properties prop = new Properties();
-        //key값으로 Exception명, value:연결주소설정
-        prop.put(RuntimeException.class.getName(), "/common/error/runtimeerror");
-        prop.put(MyException.class.getName(), "/common/error/myerror");
-
-        exceptionResolver.setExceptionMappings(prop);
-        //기본 에러처리페이지를 등록
-        //Exception이 발생하면, 에러기본페이지로 이동하도록 할 수 있다.
-        //Exception별로 분기하여 화면을 나눌수 있다.
-        exceptionResolver.setDefaultErrorView("/common/error/default");
-        return exceptionResolver;
-    }
+////    @Bean
+//    public HandlerExceptionResolver exceptionResolver() {
+//        //에러페이지를 연결해 주는 Resolver
+//        SimpleMappingExceptionResolver exceptionResolver
+//                = new SimpleMappingExceptionResolver();
+//
+//        Properties prop = new Properties();
+//        //key값으로 Exception명, value:연결주소설정
+//        prop.put(RuntimeException.class.getName(), "/common/error/runtimeerror");
+//        prop.put(MyException.class.getName(), "/common/error/myerror");
+//
+//        exceptionResolver.setExceptionMappings(prop);
+//        //기본 에러처리페이지를 등록
+//        //Exception이 발생하면, 에러기본페이지로 이동하도록 할 수 있다.
+//        //Exception별로 분기하여 화면을 나눌수 있다.
+//        exceptionResolver.setDefaultErrorView("/common/error/default");
+//        return exceptionResolver;
+//    }
 
     //crossorigin 허용하기
 
@@ -63,6 +63,14 @@ public class MyWebAppConfig implements WebMvcConfigurer {
 //        registry.addMapping("/**")
 //                .allowedOrigins("*");
     }
+
+
+  /*  @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(1024*1024*100);
+        return multipartResolver;
+    }*/
 
     @Bean
     public ObjectMapper objectMapper() {

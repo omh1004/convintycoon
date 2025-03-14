@@ -1,22 +1,42 @@
 package com.bs.spring.member.model.dao;
 
 import com.bs.spring.member.model.dto.Member;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+@Slf4j
 @Repository(value = "memberdao")
 public class MemberDaoImpl implements MemberDao {
 
     @Override
-    public Member findMemberById(SqlSession session, String id) {
-        Member member = session.selectOne("member.findMemberById", id);
-        return member;
+    public Member findMemberById(SqlSession session, Member member) {
+        Member result = session.selectOne("member.findMemberById", member);
+        return result;
     }
 
     public int saveMember(SqlSession session, Member member) {
 
         return session.insert("member.saveMember", member);
+    }
+
+    @Override
+    public Member findId(SqlSession session,Member member) {
+        System.out.println("memberDAO"+member);
+
+        Member output = session.selectOne("member.findId", member);
+
+        log.info("memberInfo"+output);
+
+        return output;
+
+
+    }
+
+    @Override
+    public Member findPwd(SqlSession session, Member member) {
+        return session.selectOne("member.findPwd", member);
     }
 
 }
