@@ -4,4 +4,7 @@
     <select id="selectAllPrd" resultType="goods">
         select GOODSNAME, GOODSTYPE,ORDERPRICE from goods g , STORAGE s
     </select>
+    <insert id="insertOrdering" parameterType="goods">
+        insert into starage ()
+    </insert>
 </mapper>
