@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="goods">
-    <select id="selectAllPrd" resultType="goods">
-        select GOODSNAME, GOODSTYPE,ORDERPRICE from goods g , STORAGE s
+<mapper namespace="ordering">
+    <select id="selectAllPrd" resultType="ordering">
+        select *
+        from
+            (select
+                 g.goodsno
+                  ,g.ORDERPRICE
+                  ,g.GOODSTYPE
+                  ,g.IMAGE
+                  ,decode(s.ORDERQUANTITY,null,0,s.ORDERQUANTITY) as ORDERQUANTITY
+                  ,decode(s.EXPDATE,null,g.TYPEEXPDATE,s.EXPDATE) as expdate
+                  ,g.GOODSNAME
+             from GOODS g,
+                  storage s
+             where g.GOODSNO = s.GOODSNO(+)
+            )
     </select>
-    <insert id="insertOrdering" parameterType="goods">
-        insert into starage ()
-    </insert>
+<!--    <insert id="insertOrdering" parameterType="ordering">-->
+
+<!--    </insert>-->
 </mapper>

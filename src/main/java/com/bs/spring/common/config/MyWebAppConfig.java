@@ -55,10 +55,10 @@ public class MyWebAppConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/spring/api/**")
-//                .allowedMethods("GET", "POST", "PUT", "DELETE","OPTION")
-                .allowedOrigins("http://localhost:5173");
-//                .allowedHeaders("*")
+        registry.addMapping("/**")
+                .allowedMethods("GET", "POST", "PUT", "DELETE","OPTION")
+                .allowedOrigins("http://localhost:5173")
+                .allowedHeaders("*");
 //                .allowCredentials(false);
 //        registry.addMapping("/**")
 //                .allowedOrigins("*");
