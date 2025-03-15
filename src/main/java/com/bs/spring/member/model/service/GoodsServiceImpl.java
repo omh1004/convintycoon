@@ -3,12 +3,15 @@ package com.bs.spring.member.model.service;
 import com.bs.spring.member.model.dao.GoodsDao;
 import com.bs.spring.member.model.dto.Goods;
 import com.bs.spring.member.model.dto.Ordering;
+import com.bs.spring.member.model.dto.Storage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GoodsServiceImpl implements GoodsService{
@@ -16,6 +19,17 @@ public class GoodsServiceImpl implements GoodsService{
     private final GoodsDao goodsDao;
     private final SqlSession session;
 
+    @Override
+    public int insertOrdering(List<Storage> goods) {
+        int result = 0;
+
+        // 리스트 내 각 객체를 개별적으로 처리
+        for (Storage storage : goods) {
+            result += goodsDao.insertOrdering(session,storage);
+        }
+
+        return result;
+    }
 
     @Override
     public List<Ordering> selectAllPrd() {

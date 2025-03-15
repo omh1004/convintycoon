@@ -4,6 +4,7 @@ package com.bs.spring.ajaxcontroller;
 import com.bs.spring.member.model.dto.Goods;
 import com.bs.spring.member.model.dto.Member;
 import com.bs.spring.member.model.dto.Ordering;
+import com.bs.spring.member.model.dto.Storage;
 import com.bs.spring.member.model.service.GoodsService;
 import com.bs.spring.member.model.service.GoodsServiceImpl;
 import lombok.NoArgsConstructor;
@@ -55,19 +56,21 @@ public class RestSellContoroller {
         }
 //
 //                 2. 상품 발주 ->창고, 발주 테이블 insert
-//        @RequestMapping("/insertOrdering")
-//        public ResponseEntity insertOrdering(@RequestBody List<Goods> goods){
-//                log.info(" 요청 received: " + goods);
-//                int result = goodsService.insertOrdering(goods);
-//                log.info(" 1. 상품전체조회: " + result);
-//
-//                if (result <= 0) {
-//                        log.info("발주등록 실패");
-//                        return ResponseEntity.notFound().build();
-//                } else {
-//                        return ResponseEntity.status(HttpStatus.OK).body(result);
-//                }
-//}
+@PostMapping("/insertOrdering")
+public ResponseEntity<?> insertOrdering(@RequestBody List<Storage> goods) {
+        log.info("요청 received: " + goods);
+
+        // Service 계층에서 각 객체를 개별적으로 처리
+        int result = goodsService.insertOrdering(goods);
+        log.info("발주 등록 결과: " + result);
+
+        if (result <= 0) {
+                log.info("발주등록 실패");
+                return ResponseEntity.notFound().build();
+        } else {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+        }
+}
 
 
 
