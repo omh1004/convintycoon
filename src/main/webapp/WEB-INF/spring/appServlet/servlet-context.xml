@@ -3,7 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
@@ -78,7 +77,7 @@
     <!--resource 설정하기-->
     <!--** 면 계층 상관없이 다 검색한다.-->
     <!--webapp 밑에서 찾기시작한다.-->
-    <mvc:resources mapping="/resources/**" location="/resources"/>
+    <mvc:resources mapping="resources" location="resources"/>
 
     <!--
         기본 viewresolver 등록하기
