@@ -13,6 +13,7 @@ import java.security.PrivateKey;
 @NoArgsConstructor
 @Builder
 public class Ordering {
+    //이것은 발주 기능 dto입니다.
     private Integer goodsno;
     private Integer orderprice;
     private String image;

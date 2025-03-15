@@ -23,7 +23,7 @@ public class RestApiController {
 //    private final BoardService boardService;
     private final MemberService memberService;
 //
-
+ //http://localhost:9090/spring/api/loginMember'
      @PostMapping("/enrollMember")
      public ResponseEntity<?> enrollMember(
              @RequestBody Member member
@@ -61,6 +61,8 @@ public class RestApiController {
 //        Board board = boardService.findBoardById(boardNo);
 //        return board;
 //    }
+
+    //http://localhost:9090/spring/api/loginMember'
         @PostMapping("/loginMember")
         public ResponseEntity<Member> loginMember(@RequestBody Member member){
             log.info("로그인 요청 received: " + member);
