@@ -17,7 +17,29 @@
              where g.GOODSNO = s.GOODSNO(+)
             )
     </select>
-<!--    <insert id="insertOrdering" parameterType="ordering">-->
 
-<!--    </insert>-->
-</mapper>
+
+        <!-- 단일 Storage 객체를 INSERT 처리하는 쿼리 (필요 시 사용) -->
+        <insert id="insertOrdering" parameterType="com.bs.spring.member.model.dto.Storage">
+            INSERT INTO STORAGE (
+                ORDERINGNO,
+                GOODSNO,
+                PLAYNO,
+                EXPDATE,
+                ORDERQUANTITY,
+                SALEPRICE,
+                SALEDGREE,
+                DISPOSALYN
+            ) VALUES (
+                         ordering_seq.NEXTVAL,
+                         #{goodsno},
+                         #{playno},
+                         #{expdate},
+                         #{orderquantity},
+                         #{saleprice},
+                         #{saledgree},
+                         #{disposalyn}
+                     )
+        </insert>
+
+    </mapper>
