@@ -20,3 +20,5 @@ public class Storage {
     private Integer saledgree;
     private String  disposalyn;
 }
+
+
