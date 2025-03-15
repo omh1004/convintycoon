@@ -6,14 +6,14 @@
             <PatternLayout pattern="%-5p %d{yyyy-MM-dd HH:mm:ss}[%l] - %m %n"/>
             <!-- <JsonTemplateLayout eventTemplateUri="classpath:mylayout.json"/> -->
         </Console>
-        <RollingFile name="rollingFile" fileName="/Users/ohminhyun/Documents/chunjaeSpring/logs/spring-log.log" filePattern="/Users/ohminhyun/Documents/chunjaeSpring/logs/log-%d{yyyy-MM-dd}.log">
-            <!-- <PatternLayout pattern="%-5p %d{yyyy-MM-dd HH:mm:ss}[%l] - %m %n"/> -->
-            <JsonTemplateLayout eventTemplateUri="classpath:mylayout.json"/>
-            <Policies>
-                <!-- 하루에 한개 -->
-                <TimeBasedTriggeringPolicy interval="1"/>
-            </Policies>
-        </RollingFile>
+<!--        <RollingFile name="rollingFile" fileName="/Users/ohminhyun/Documents/chunjaeSpring/logs/spring-log.log" filePattern="/Users/ohminhyun/Documents/chunjaeSpring/logs/log-%d{yyyy-MM-dd}.log">-->
+<!--            &lt;!&ndash; <PatternLayout pattern="%-5p %d{yyyy-MM-dd HH:mm:ss}[%l] - %m %n"/> &ndash;&gt;-->
+<!--            <JsonTemplateLayout eventTemplateUri="classpath:mylayout.json"/>-->
+<!--            <Policies>-->
+<!--                &lt;!&ndash; 하루에 한개 &ndash;&gt;-->
+<!--                <TimeBasedTriggeringPolicy interval="1"/>-->
+<!--            </Policies>-->
+<!--        </RollingFile>-->
     </Appenders>
     <Loggers>
         <!-- 출력대상과 출력 leve을 설정 -->
