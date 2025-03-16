@@ -47,4 +47,21 @@ public class BankController {
         }
     }
 
+    @GetMapping("/getPlayday")
+    public ResponseEntity<Integer> getPlayday(@RequestParam String userId) {
+        int playday = bankService.getPlaydayByUserId(userId);
+        return ResponseEntity.ok(playday);
+    }
+
+
+    @GetMapping("/getDailyRevenue")
+    public ResponseEntity<Map<String, Object>> getDailyRevenue(@RequestParam String userId, @RequestParam int selectedDay) {
+        System.out.println("🔴 getDailyRevenue 실행: userId = " + userId + ", salesDay = " + selectedDay);
+        Map<String, Object> revenueData = bankService.getDailyRevenue(userId, selectedDay);
+        return ResponseEntity.ok(revenueData);
+    }
+
+
+
+
 }

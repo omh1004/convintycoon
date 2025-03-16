@@ -1,7 +1,7 @@
 package com.bs.spring.bank.model.service;
 
 import com.bs.spring.bank.model.dto.Bank;
-import java.util.List;
+import java.util.*;
 
 public interface BankService {
 
@@ -14,4 +14,8 @@ public interface BankService {
     // ✅ 특정 유저의 대출 내역 조회 메서드 추가
     List<Bank> getLoansByUserId(String userId);
     int insertLoan(Bank bank);
+
+    int getPlaydayByUserId(String userId);
+
+    Map<String, Object> getDailyRevenue(String userId, int selectedDay);
 }

@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -46,4 +46,18 @@ public class BankServiceImpl implements BankService {
     public int insertLoan(Bank bank) {
         return dao.insertLoan(session, bank);
     }
+
+    @Override
+    public int getPlaydayByUserId(String userId) {
+        return dao.getPlaydayByUserId(session, userId);
+    }
+
+    @Override
+    public Map<String, Object> getDailyRevenue(String userId, int selectedDay) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("userId", userId);
+        paramMap.put("selectedDay", selectedDay);
+        return dao.getDailyRevenue(session, paramMap);
+    }
+
 }
