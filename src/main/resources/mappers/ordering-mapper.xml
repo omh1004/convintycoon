@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ordering">
     <select id="selectAllPrd" resultType="ordering">
-        select *
+
+        select goodsno,GOODSNAME, sum(ORDERQUANTITY) as ORDERQUANTITY,ORDERPRICE,GOODSTYPE,IMAGE
         from
             (select
                  g.goodsno
@@ -13,9 +14,12 @@
                   ,decode(s.EXPDATE,null,g.TYPEEXPDATE,s.EXPDATE) as expdate
                   ,g.GOODSNAME
              from GOODS g,
-                  storage s
+                  (select * from storage where PLAYNO=1) s
              where g.GOODSNO = s.GOODSNO(+)
+             and g.IMAGE  not LIKE '%' || 50 || '%'
+
             )
+        group by GOODSNAME,goodsno,ORDERPRICE,GOODSTYPE,IMAGE
     </select>
 
 
@@ -31,7 +35,7 @@
                 SALEDGREE,
                 DISPOSALYN
             ) VALUES (
-                         ordering_seq.NEXTVAL,
+                         ordering_seq.NEXTVAL+1,
                          #{goodsno},
                          #{playno},
                          #{expdate},
