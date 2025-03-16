@@ -6,20 +6,22 @@
              ,GOODSTYPE
              ,GOODSNAME
              ,EXPDATE
+             ,image
              ,sum(ORDERQUANTITY) as ORDERQUANTITY
         from
             (select s.GOODSNO,
                     decode(s.EXPDATE, 0, 0, 1) as EXPDATE,
                     g.GOODSTYPE,
                     g.GOODSNAME,
-                    s.ORDERQUANTITY
+                    s.ORDERQUANTITY,
+                    decode(s.EXPDATE, 0,g.DEIMAGE,g.IMAGE ) image
              from GOODS g,
                   STORAGE s
              where 1 = 1
                and g.GOODSNO(+) = s.GOODSNO
                and s.playno=1
             )
-        group by  GOODSNO,GOODSTYPE,GOODSNAME,EXPDATE
+        group by  GOODSNO,GOODSTYPE,GOODSNAME,EXPDATE,image
     </select>
 
 
