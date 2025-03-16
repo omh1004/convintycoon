@@ -16,6 +16,8 @@
              from GOODS g,
                   (select * from storage where PLAYNO=1) s
              where g.GOODSNO = s.GOODSNO(+)
+             and g.IMAGE  not LIKE '%' || 50 || '%'
+
             )
         group by GOODSNAME,goodsno,ORDERPRICE,GOODSTYPE,IMAGE
     </select>
