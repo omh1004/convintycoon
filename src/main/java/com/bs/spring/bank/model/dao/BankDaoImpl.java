@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.List;
+import java.util.*;
 
 
 @Repository
@@ -38,5 +38,16 @@ public class BankDaoImpl implements BankDao {
     public int insertLoan(SqlSession session, Bank bank) {
         return session.insert("bank.insertLoan", bank);
     }
+
+    @Override
+    public int getPlaydayByUserId(SqlSession session, String userId) {
+        return session.selectOne("bank.getPlaydayByUserId", userId);
+    }
+
+    @Override
+    public Map<String, Object> getDailyRevenue(SqlSession session, Map<String, Object> paramMap) {
+        return session.selectOne("bank.getDailyRevenue", paramMap);
+    }
+
 
 }

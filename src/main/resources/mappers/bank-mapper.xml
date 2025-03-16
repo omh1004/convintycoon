@@ -33,7 +33,7 @@
 <!--    </insert>-->
 
     <select id="getLoansByUserId" parameterType="String" resultType="com.bs.spring.bank.model.dto.Bank">
-        SELECT * FROM BANK WHERE USER_ID = #{userId}
+        SELECT * FROM BANK WHERE USER_ID = #{userId} ORDER BY LOANDATE DESC
     </select>
 
 
@@ -48,6 +48,39 @@
                        #{userId}
                )
     </insert>
+
+    <select id="getPlaydayByUserId" parameterType="String" resultType="int">
+        SELECT MAX(playday)
+        FROM game
+        WHERE user_id = #{userId}
+    </select>
+
+
+    <select id="getDailyRevenue" parameterType="map" resultType="map">
+        SELECT
+            r.SALESDAY,
+            r.SALESMOUNT AS "판매수익",
+            CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END AS "퀴즈혜택",
+            r.SALESMOUNT * 0.2 AS "폐기수익",
+            (r.SALESMOUNT + (CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END) + (r.SALESMOUNT * 0.2)) AS "총수입",
+            SUM(gd.ORDERPRICE * s.ORDERQUANTITY) AS "발주비용",
+            20000 AS "운영비",
+            (SUM(gd.ORDERPRICE * s.ORDERQUANTITY) + 20000) AS "총지출",  -- ✅ `g.ORDERPRICE` → `gd.ORDERPRICE` 로 수정
+            ((r.SALESMOUNT + (CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END) + (r.SALESMOUNT * 0.2)) - (SUM(gd.ORDERPRICE * s.ORDERQUANTITY) + 20000)) AS "총계", -- ✅ 여기서도 수정해야 함!
+            -- ✅ `잔고` 데이터 추가 (game 테이블의 CASH 컬럼)
+            MAX(g.CASH) AS "잔고"
+        FROM revenue r
+                 JOIN game g ON r.PLAY_NO = g.PLAY_NO
+                 JOIN storage s ON g.PLAY_NO = s.PLAYNO
+                 JOIN goods gd ON gd.GOODSNO = s.GOODSNO  -- ✅ `goods` 테이블을 `gd` 별칭으로 사용
+        WHERE g.USER_ID = #{userId}
+          AND r.SALESDAY = #{selectedDay}
+        GROUP BY r.SALESDAY, r.SALESMOUNT, r.QEEZEYN
+
+
+    </select>
+
+
 
 
 </mapper>

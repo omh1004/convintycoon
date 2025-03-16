@@ -3,7 +3,7 @@ package com.bs.spring.bank.model.dao;
 import com.bs.spring.bank.model.dto.Bank;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.List;
+import java.util.*;
 
 public interface BankDao {
 
@@ -18,4 +18,7 @@ public interface BankDao {
 
     int insertLoan(SqlSession session, Bank bank);
 
+    int getPlaydayByUserId(SqlSession session, String userId);
+
+    Map<String, Object> getDailyRevenue(SqlSession session, Map<String, Object> paramMap);
 }
