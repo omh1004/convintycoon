@@ -15,6 +15,7 @@ public class Product {
     private Integer playNo;
     private String goodType;
     private String goodsName;
+    private String image;
     private Integer expDate;
     private Integer orderQuantity;
     private Integer salePrice;

@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Revenue {
-  long salesDay;      // N일차
-  long salesMount;    // 판매 수익
+  Integer playNo;        // 게임번호
+  Integer salesDay;      // N일차
+  Integer salesMount;    // 판매 수익
   String qeezeYN;        // 퀴즈 정답 여부
   int disposePrice;   // 폐기수익
   int orderPrice;     // 발주 비용
