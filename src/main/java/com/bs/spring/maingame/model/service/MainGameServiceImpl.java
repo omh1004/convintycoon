@@ -1,5 +1,6 @@
 package com.bs.spring.maingame.model.service;
 
+import com.bs.spring.member.model.dto.Goods;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +19,7 @@ public class MainGameServiceImpl implements MainGameService{
   public int saveEndResult(Revenue revenue){
     return dao.saveEndResult(session, revenue);
   }
+
+  @Override
+  public int updateStorage(Goods goods){ return dao.updateStorage(session, goods); }
 }

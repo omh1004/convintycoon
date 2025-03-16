@@ -2,6 +2,7 @@ package com.bs.spring.ajaxcontroller;
 
 import java.util.List;
 
+import com.bs.spring.member.model.dto.Storage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,18 +16,18 @@ import com.bs.spring.member.model.dto.Goods;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@CrossOrigin("*")
 @RequiredArgsConstructor
 @RequestMapping("/maingame")
+@CrossOrigin("*")
 public class MainGameController {
   private final MainGameService service;
 
   @RequestMapping("/gameend")
-  public ResponseEntity gameEnd(@RequestBody Revenue revenue,
-          @RequestBody List<Goods> product){
+  public ResponseEntity gameEnd(@RequestBody Revenue revenue){
+//          @RequestBody List<Storage> storage){
     int result = service.saveEndResult(revenue);
-    int result2 = 0;
-    int count = 0;
+//    int result2 = 0;
+//    int count = 0;
     // product.forEach((p)->{
     //   result2 += service.updateStorage(p);
     //   count++;
