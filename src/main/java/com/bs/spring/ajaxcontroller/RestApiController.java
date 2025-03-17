@@ -97,15 +97,18 @@ public class RestApiController {
 
 
     @PostMapping("/checkId")
-    public ResponseEntity<Map<String, Boolean>> checkId(@RequestBody Member member) {
+    public ResponseEntity<Member> checkId(@RequestBody Member member) {
         log.info("아이디찾기 요청 received: " + member);
         Member result = memberService.checkId(member);
         log.info("아이디찾기 성공: " + result);
 
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("duplicate", result != null);
-
-        return ResponseEntity.ok(response);
+        if (result == null) {
+            log.info("로그인 실패: 회원 정보를 찾을 수 없음");
+            return ResponseEntity.notFound().build();
+        } else {
+            log.info("로그인 성공: " + result.getUserId());
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        }
     }
 
 
