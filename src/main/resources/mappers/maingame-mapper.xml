@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="maingame">
+    <resultMap id="productMap" type="product">
+        <id property="orderingNo" column="orderingno"/>
+        <result property="goodsNo" column="goodsno"/>
+        <result property="playNo" column="playno"/>
+        <result property="goodType" column="goodstype"/>
+        <result property="goodsName" column="goodsname"/>
+        <result property="image" column="image"/>
+        <result property="expDate" column="expdate"/>
+        <result property="orderQuantity" column="orderquantity"/>
+        <result property="salePrice" column="saleprice"/>
+        <result property="saleDgree" column="saledgree"/>
+        <result property="disposalYN" column="disposalyn"/>
+    </resultMap>
+    <insert id="saveEndResult" parameterType="revenue">
+        insert into revenue(revenue_no, play_no, salesday, salesmount, qeezeyn, feveryn, disposeprice, orderprice, dayendcash)
+        values(test_revenue_seq.nextval, 1 ,#{salesDay}, #{salesMount}, #{qeezeYN}, #{feverYN}, #{disposePrice}, #{orderPrice}, #{dayendcash})
+    </insert>
+    <update id="updateStorage" parameterType="storage">
+        update storage set orderquantity=#{orderquantity}, expdate=#{expdate}, saleprice=#{saleprice} where orderingno=#{orderingno}
+    </update>
+    <select id="getAllProductByGameNo" parameterType="int" resultMap="productMap">
+        select s.orderingno as orderingno, s.goodsno as goodsno, s.playno as playno, g.goodstype as goodstype, g.goodsname as goodsname,
+               g.image as image, s.expdate as expdate, s.orderquantity as orderquantity, s.saleprice as saleprice, s.saledgree as saledgree,
+               s.disposalyn as disposalyn
+            from storage s join goods g on s.goodsno=g.goodsno where playno=#{gameNo}
+    </select>
+    <insert id="newGame" parameterType="game">
+        insert into game values(#{playDay}, #{storageLevel}, #{cash}, #{loan}, (select memberno from member where userid=#{userId}),playgame_seq.nextval,#{state},#{userId})
+    </insert>
+    <select id="getNewGameCode" parameterType="string" resultType="_int">
+        select max(play_no) from game where user_id=#{userId}
+    </select>
+    <insert id="newLoan" parameterType="map">
+        insert into bank values(null, loan_seq.nextval, 1000000, (select memberno from member where userid=#{userId}), #{userId}, #{gameNo})
+    </insert>
+    <update id="moneyExpense" parameterType="map">
+        update game set cash=cash+#{price} where play_no=#{gameNo}
+    </update>
+    <select id="getMoneyData" resultType="int">
+        select cash from game where play_no=#{gameNo}
+    </select>
+</mapper>
