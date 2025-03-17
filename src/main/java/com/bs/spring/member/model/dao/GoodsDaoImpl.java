@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public class GoodsDaoImpl implements GoodsDao{
     @Override
-    public List<Ordering> selectAllPrd(SqlSession session) {
-        return session.selectList("ordering.selectAllPrd");
+    public List<Ordering> selectAllPrd(SqlSession session, Integer gameNo) {
+        return session.selectList("ordering.selectAllPrd",gameNo);
     }
 
     @Transactional

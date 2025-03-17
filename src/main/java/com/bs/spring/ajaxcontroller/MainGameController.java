@@ -6,6 +6,7 @@ import java.util.List;
 import com.bs.spring.maingame.model.dto.Game;
 import com.bs.spring.maingame.model.dto.Product;
 import com.bs.spring.maingame.model.wrapper.RevenueWrapper;
+import com.bs.spring.member.model.dto.Member;
 import com.bs.spring.member.model.dto.Storage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +20,8 @@ import com.bs.spring.member.model.dto.Goods;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/maingame")
@@ -27,9 +30,15 @@ public class MainGameController {
   private final MainGameService service;
 
   @RequestMapping("/newgame")
-  public ResponseEntity newGame(@RequestBody Game game){
-    int result = service.newGame(game);
-    return ResponseEntity.noContent().build();
+  public ResponseEntity startNewGame(@RequestBody Game game){
+    System.out.println(game);
+    int result = service.startNewGame(game);
+    System.out.println("결과 : " + result);
+    if(result>0){
+      return ResponseEntity.ok().body(result);
+    }else {
+      return ResponseEntity.noContent().build();
+    }
   }
 
   @RequestMapping("/gamestart")
@@ -37,7 +46,7 @@ public class MainGameController {
     List<Product> product = service.getAllProductByGameNo(gameNo);
     System.out.println(product);
     product.forEach(System.out::println);
-    return ResponseEntity.noContent().build();
+    return ResponseEntity.ok().body(product);
   }
 
   @RequestMapping("/gameend")
@@ -74,5 +83,12 @@ public class MainGameController {
     }else{
       return ResponseEntity.badRequest().build();
     }
+  }
+
+  @RequestMapping("/expense")
+  public ResponseEntity moneyExpense(Integer price, Integer gameNo){
+    int result = service.moneyExpense(price,gameNo);
+    System.out.println(result);
+    return ResponseEntity.ok().build();
   }
 }

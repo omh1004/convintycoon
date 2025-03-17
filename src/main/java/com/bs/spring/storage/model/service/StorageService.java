@@ -8,5 +8,5 @@ import java.util.List;
 
 
 public interface StorageService {
-    List<Store> findStorageAll();
+    List<Store> findStorageAll(Integer gameNo);
 }

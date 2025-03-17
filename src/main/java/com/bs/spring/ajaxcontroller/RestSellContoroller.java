@@ -42,9 +42,9 @@ public class RestSellContoroller {
         // 발주전체
 
         @GetMapping("/selectAllPrd")
-        public ResponseEntity<List<Ordering>> selectAllPrd(){
+        public ResponseEntity<List<Ordering>> selectAllPrd(Integer gameNo){
                 log.info(" 요청 received: " );
-                List<Ordering> result = goodsService.selectAllPrd();
+                List<Ordering> result = goodsService.selectAllPrd(gameNo);
 
 
                 if (result == null) {

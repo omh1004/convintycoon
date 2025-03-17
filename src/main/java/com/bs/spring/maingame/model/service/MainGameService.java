@@ -11,7 +11,8 @@ import java.util.List;
 public interface MainGameService {
   int saveRevenueAndUpdateStorage(Revenue revenue, List<Storage> storage);
   List<Product> getAllProductByGameNo(Integer gameNo);
-  int newGame(Game game);
+  int startNewGame(Game game);
+  int moneyExpense(Integer price, Integer gameNo);
 //  int saveEndResult(Revenue revenue);
 //  int updateStorage(Storage storage);
 }

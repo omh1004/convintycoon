@@ -12,7 +12,7 @@ import java.util.List;
 public class StorageDaoImpl implements StorageDao {
 
     @Override
-    public List<Store> selectAllPrd(SqlSession session) {
-        return session.selectList("storage.selectAllPrd");
+    public List<Store> selectAllPrd(SqlSession session, Integer gameNo) {
+        return session.selectList("storage.selectAllPrd",gameNo);
     }
 }

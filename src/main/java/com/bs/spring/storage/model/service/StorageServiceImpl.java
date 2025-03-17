@@ -19,8 +19,8 @@ public class StorageServiceImpl implements StorageService {
 
 
     @Override
-    public List<Store> findStorageAll() {
-        List<Store> result = storageDao.selectAllPrd(session);
+    public List<Store> findStorageAll(Integer gameNo) {
+        List<Store> result = storageDao.selectAllPrd(session, gameNo);
         return result;
     }
 }

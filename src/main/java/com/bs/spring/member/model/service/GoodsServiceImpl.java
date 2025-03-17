@@ -32,8 +32,8 @@ public class GoodsServiceImpl implements GoodsService{
     }
 
     @Override
-    public List<Ordering> selectAllPrd() {
-        List<Ordering> result = goodsDao.selectAllPrd(session);
+    public List<Ordering> selectAllPrd(Integer gameNo) {
+        List<Ordering> result = goodsDao.selectAllPrd(session, gameNo);
         return result;
     }
 

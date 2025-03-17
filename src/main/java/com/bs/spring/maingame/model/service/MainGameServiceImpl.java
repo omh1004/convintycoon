@@ -22,9 +22,16 @@ public class MainGameServiceImpl implements MainGameService{
   private final MainGameDao dao;
 
   @Override
-  public int newGame(Game game){
+  @Transactional
+  public int startNewGame(Game game){
     int result = dao.newGame(session, game);
-    return result;
+    int gameCode = dao.getNewGameCode(session, game.getUserId());
+    int result2 = dao.newLoan(session, game.getUserId(), gameCode);
+    if(result>0 && result2>0){
+      return gameCode;
+    }else{
+      return 0;
+    }
   }
 
   @Override
@@ -42,6 +49,11 @@ public class MainGameServiceImpl implements MainGameService{
     });
 
     return result;
+  }
+
+  @Override
+  public int moneyExpense(Integer price, Integer gameNo){
+    return dao.moneyExpense(session, price, gameNo);
   }
 //  @Override
 //  public int saveEndResult(Revenue revenue){

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ordering">
-    <select id="selectAllPrd" resultType="ordering">
+    <select id="selectAllPrd" parameterType="int" resultType="ordering">
 
         select goodsno,GOODSNAME, sum(ORDERQUANTITY) as ORDERQUANTITY,ORDERPRICE,GOODSTYPE,IMAGE
         from
@@ -14,7 +14,7 @@
                   ,decode(s.EXPDATE,null,g.TYPEEXPDATE,s.EXPDATE) as expdate
                   ,g.GOODSNAME
              from GOODS g,
-                  (select * from storage where PLAYNO=1) s
+                  (select * from storage where PLAYNO=#{gameNo}) s
              where g.GOODSNO = s.GOODSNO(+)
              and g.IMAGE  not LIKE '%' || 50 || '%'
 
