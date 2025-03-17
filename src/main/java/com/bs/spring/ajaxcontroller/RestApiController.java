@@ -64,22 +64,21 @@ public class RestApiController {
 //        return board;
 //    }
 
-    //http://localhost:9090/spring/api/loginMember'
-        @PostMapping("/loginMember")
-        public ResponseEntity<Member> loginMember(@RequestBody Member member, HttpSession session){
-            log.info("로그인 요청 received: " + member);
+    @PostMapping("/loginMember")
+    public ResponseEntity<Member> loginMember(@RequestBody Member member, HttpSession session){
+        log.info("로그인 요청 received: " + member);
 
-            Member result = memberService.findMemberById(member);
+        Member result = memberService.findMemberById(member);
 
-            if (result == null) {
-                log.info("로그인 실패: 회원 정보를 찾을 수 없음");
-                return ResponseEntity.notFound().build();
-            } else {
-                log.info("로그인 성공: " + result.getUserId());
-                session.setAttribute("loginMember",result);
-                return ResponseEntity.status(HttpStatus.OK).body(result);
-            }
+        if (result == null) {
+            log.info("로그인 실패: 회원 정보를 찾을 수 없음");
+            return ResponseEntity.notFound().build();
+        } else {
+            log.info("로그인 성공: " + result.getUserId());
+            session.setAttribute("loginMember", result);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         }
+    }
 
     @PostMapping("/findId")
     public ResponseEntity<Member> findId(@RequestBody Member member) {

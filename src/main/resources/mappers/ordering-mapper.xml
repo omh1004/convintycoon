@@ -14,10 +14,9 @@
                   ,decode(s.EXPDATE,null,g.TYPEEXPDATE,s.EXPDATE) as expdate
                   ,g.GOODSNAME
              from GOODS g,
-                  (select * from storage where PLAYNO=1) s
+                  STORAGE s
              where g.GOODSNO = s.GOODSNO(+)
              and g.IMAGE  not LIKE '%' || 50 || '%'
-
             )
         group by GOODSNAME,goodsno,ORDERPRICE,GOODSTYPE,IMAGE
     </select>

@@ -1,6 +1,7 @@
 package com.bs.spring.ajaxcontroller;
 
 
+import com.bs.spring.common.model.LoginMember;
 import com.bs.spring.member.model.dto.Goods;
 import com.bs.spring.member.model.dto.Member;
 import com.bs.spring.member.model.dto.Ordering;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -44,6 +46,8 @@ public class RestSellContoroller {
         @GetMapping("/selectAllPrd")
         public ResponseEntity<List<Ordering>> selectAllPrd(){
                 log.info(" 요청 received: " );
+
+
                 List<Ordering> result = goodsService.selectAllPrd();
 
 
