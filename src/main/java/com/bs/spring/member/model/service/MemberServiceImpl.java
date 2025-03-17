@@ -20,6 +20,11 @@ public class MemberServiceImpl implements MemberService{
 
     private final SqlSession session;
 
+    @Override
+    public Member checkId(Member member) {
+        log.info("service넘어옴"+member);
+        return dao.checkId(session, member);
+    }
 
 //
 //    @Override

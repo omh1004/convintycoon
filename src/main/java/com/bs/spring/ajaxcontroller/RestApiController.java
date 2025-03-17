@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -64,7 +66,7 @@ public class RestApiController {
 
     //http://localhost:9090/spring/api/loginMember'
         @PostMapping("/loginMember")
-        public ResponseEntity<Member> loginMember(@RequestBody Member member){
+        public ResponseEntity<Member> loginMember(@RequestBody Member member, HttpSession session){
             log.info("로그인 요청 received: " + member);
 
             Member result = memberService.findMemberById(member);
@@ -74,6 +76,7 @@ public class RestApiController {
                 return ResponseEntity.notFound().build();
             } else {
                 log.info("로그인 성공: " + result.getUserId());
+                session.setAttribute("loginMember",result);
                 return ResponseEntity.status(HttpStatus.OK).body(result);
             }
         }
@@ -92,6 +95,19 @@ public class RestApiController {
             return ResponseEntity.status(HttpStatus.OK).body(result);
         }
      }
+
+
+    @PostMapping("/checkId")
+    public ResponseEntity<Map<String, Boolean>> checkId(@RequestBody Member member) {
+        log.info("아이디찾기 요청 received: " + member);
+        Member result = memberService.checkId(member);
+        log.info("아이디찾기 성공: " + result);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("duplicate", result != null);
+
+        return ResponseEntity.ok(response);
+    }
 
 
     @PostMapping("/findPwd")

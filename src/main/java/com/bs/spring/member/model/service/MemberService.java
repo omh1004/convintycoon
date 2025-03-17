@@ -15,4 +15,6 @@ public interface MemberService {
     Member findId(Member member);
 
     Member findPwd(Member member);
+
+    Member checkId(Member member);
 }

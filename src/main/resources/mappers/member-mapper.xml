@@ -13,4 +13,7 @@
     <select id="findPwd" resultType="member" parameterType="member">-->
     select * from member where  NICKNAME=#{nick} and  EMAIL=#{email} and USERID=#{userId}
     </select>
+    <select id="checkId" resultType="member" parameterType="member">
+        select * from member where userId=#{userId}
+    </select>
 </mapper>

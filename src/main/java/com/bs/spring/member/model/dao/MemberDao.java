@@ -15,4 +15,6 @@ public interface MemberDao {
     Member findId(SqlSession session,Member member);
 
     Member findPwd(SqlSession session, Member member);
+
+    Member checkId(SqlSession session, Member member);
 }
