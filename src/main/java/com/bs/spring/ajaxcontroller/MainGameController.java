@@ -3,6 +3,8 @@ package com.bs.spring.ajaxcontroller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bs.spring.maingame.model.dto.Game;
+import com.bs.spring.maingame.model.dto.Product;
 import com.bs.spring.maingame.model.wrapper.RevenueWrapper;
 import com.bs.spring.member.model.dto.Storage;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,20 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin("*")
 public class MainGameController {
   private final MainGameService service;
+
+  @RequestMapping("/newgame")
+  public ResponseEntity newGame(@RequestBody Game game){
+    int result = service.newGame(game);
+    return ResponseEntity.noContent().build();
+  }
+
+  @RequestMapping("/gamestart")
+  public ResponseEntity gameStart(Integer gameNo){
+    List<Product> product = service.getAllProductByGameNo(gameNo);
+    System.out.println(product);
+    product.forEach(System.out::println);
+    return ResponseEntity.noContent().build();
+  }
 
   @RequestMapping("/gameend")
   public ResponseEntity gameEnd(@RequestBody RevenueWrapper statement){

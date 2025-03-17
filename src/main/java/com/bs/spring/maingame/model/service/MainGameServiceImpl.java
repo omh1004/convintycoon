@@ -1,5 +1,7 @@
 package com.bs.spring.maingame.model.service;
 
+import com.bs.spring.maingame.model.dto.Game;
+import com.bs.spring.maingame.model.dto.Product;
 import com.bs.spring.member.model.dto.Goods;
 import com.bs.spring.member.model.dto.Storage;
 import org.apache.ibatis.session.SqlSession;
@@ -18,6 +20,18 @@ import java.util.List;
 public class MainGameServiceImpl implements MainGameService{
   private final SqlSession session;
   private final MainGameDao dao;
+
+  @Override
+  public int newGame(Game game){
+    int result = dao.newGame(session, game);
+    return result;
+  }
+
+  @Override
+  public List<Product> getAllProductByGameNo(Integer gameNo){
+    List<Product> product = dao.getAllProductByGameNo(session, gameNo);
+    return product;
+  }
 
   @Override
   @Transactional

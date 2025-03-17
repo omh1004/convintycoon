@@ -14,5 +14,7 @@
         <typeAlias type="com.bs.spring.common.SpringArrayTypeHandler" alias="strArr"/>
         <typeAlias type="com.bs.spring.maingame.model.dto.Revenue" alias="revenue"/>
         <typeAlias type="com.bs.spring.member.model.dto.Store" alias="store"/>
+        <typeAlias type="com.bs.spring.maingame.model.dto.Product" alias="product"/>
+        <typeAlias type="com.bs.spring.maingame.model.dto.Game" alias="game"/>
     </typeAliases>
 </configuration>
