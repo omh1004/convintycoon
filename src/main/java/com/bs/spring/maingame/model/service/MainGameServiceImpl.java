@@ -44,6 +44,7 @@ public class MainGameServiceImpl implements MainGameService{
   @Transactional
   public int saveRevenueAndUpdateStorage(Revenue revenue, List<Storage> storage){
     int result = dao.saveEndResult(session, revenue);
+    int result2 = dao.moneyChange(session, revenue.getDayendcash(),revenue.getPlayNo());
     storage.forEach(s->{
       dao.updateStorage(session, s);
     });

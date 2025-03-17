@@ -19,5 +19,6 @@ public interface MainGameDao {
   int newLoan(SqlSession session, @Param("userId") String userId, @Param("gameNo") Integer gameNo);
   int getNewGameCode(SqlSession session, String userId);
   int moneyExpense(SqlSession session, Integer price, Integer gameNo);
+  int moneyChange(SqlSession session, Integer price, Integer gameNo);
   int getMoneyData(SqlSession session, Integer gameNo);
 }

@@ -75,6 +75,14 @@ public class MainGameDaoImpl implements MainGameDao {
     }
 
     @Override
+    public int moneyChange(SqlSession session, Integer price, Integer gameNo){
+        Map<String, Integer> params = new HashMap<>();
+        params.put("price", price);
+        params.put("gameNo", gameNo);
+        return session.update("maingame.moneyExpense",params);
+    }
+
+    @Override
     public int getMoneyData(SqlSession session, Integer gameNo){
         return session.selectOne("maingame.getMoneyData", gameNo);
     }
