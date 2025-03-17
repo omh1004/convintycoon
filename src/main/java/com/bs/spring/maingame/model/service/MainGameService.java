@@ -13,6 +13,7 @@ public interface MainGameService {
   List<Product> getAllProductByGameNo(Integer gameNo);
   int startNewGame(Game game);
   int moneyExpense(Integer price, Integer gameNo);
+  int getMoneyData(Integer gameNo);
 //  int saveEndResult(Revenue revenue);
 //  int updateStorage(Storage storage);
 }

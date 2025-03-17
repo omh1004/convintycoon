@@ -55,6 +55,11 @@ public class MainGameServiceImpl implements MainGameService{
   public int moneyExpense(Integer price, Integer gameNo){
     return dao.moneyExpense(session, price, gameNo);
   }
+
+  @Override
+  public int getMoneyData(Integer gameNo){
+    return dao.getMoneyData(session, gameNo);
+  }
 //  @Override
 //  public int saveEndResult(Revenue revenue){
 //    return dao.saveEndResult(session, revenue);

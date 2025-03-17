@@ -91,4 +91,10 @@ public class MainGameController {
     System.out.println(result);
     return ResponseEntity.ok().build();
   }
+
+  @RequestMapping("/moneydata")
+  public ResponseEntity moneyData(Integer gameNo){
+    int money = service.getMoneyData(gameNo);
+    return ResponseEntity.ok().body(money);
+  }
 }

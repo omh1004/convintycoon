@@ -73,4 +73,9 @@ public class MainGameDaoImpl implements MainGameDao {
         params.put("gameNo", gameNo);
         return session.update("maingame.moneyExpense",params);
     }
+
+    @Override
+    public int getMoneyData(SqlSession session, Integer gameNo){
+        return session.selectOne("maingame.getMoneyData", gameNo);
+    }
 }
