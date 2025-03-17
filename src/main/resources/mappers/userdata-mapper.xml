@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<!-- 임시적으로 팀원들과 겹치지 않기 위해 만든 mapper ( 임시적으로 랭킹 조회와 저장된 데이터 불러오기 기능 구현 )-->
+<mapper namespace="userdata">
+
+    <resultMap id="UserRankingResultMap" type="map">
+        <result property="nickname" column="nickname"/>
+        <result property="userId" column="userId"/>
+        <result property="totalRevenue" column="totalRevenue"/>
+    </resultMap>
+
+    <!-- ✅ 랭킹 조회 -->
+    <select id="getUserRankings" resultMap="UserRankingResultMap">
+        SELECT * FROM (
+        SELECT
+        m.NICKNAME AS nickname,
+        g.USER_ID AS userId,
+        SUM(r.SALESMOUNT) AS totalRevenue,
+        DENSE_RANK() OVER (ORDER BY SUM(r.SALESMOUNT) DESC) AS ranking
+        FROM revenue r
+        JOIN game g ON r.PLAY_NO = g.PLAY_NO
+        JOIN member m ON g.USER_ID = m.USERID
+        GROUP BY g.USER_ID, m.NICKNAME
+        HAVING SUM(r.SALESMOUNT) > 0
+        ) WHERE ranking &lt;= 6
+    </select>
+
+
+    <!-- ✅ 유저의 게임 데이터 불러오기 -->
+    <resultMap id="UserDataMap" type="com.bs.spring.userdata.model.dto.UserData">
+        <result property="userId" column="USER_ID"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="email" column="EMAIL"/>
+        <result property="cash" column="CASH"/>
+        <result property="loan" column="LOAN"/>
+        <result property="storageLevel" column="STORAGELEVEL"/>
+        <result property="playNo" column="PLAY_NO"/>
+        <result property="totalRevenue" column="TOTALREVENUE"/>
+    </resultMap>
+
+
+        <select id="getUserData" parameterType="String" resultMap="UserDataMap">
+            SELECT
+                m.USERID, m.NICKNAME, m.EMAIL,
+                g.CASH, g.LOAN, g.STORAGELEVEL, g.PLAY_NO,
+                COALESCE(SUM(r.SALESMOUNT), 0) AS TOTALREVENUE
+            FROM member m
+                     LEFT JOIN game g ON m.USERID = g.USER_ID
+                     LEFT JOIN revenue r ON g.PLAY_NO = r.PLAY_NO
+            WHERE m.USERID = #{userId}
+            GROUP BY m.USERID, m.NICKNAME, m.EMAIL, g.CASH, g.LOAN, g.STORAGELEVEL, g.PLAY_NO
+        </select>
+
+
+
+
+
+
+
+</mapper>
