@@ -14,6 +14,7 @@ public class Revenue {
   Integer salesDay;      // N일차
   Integer salesMount;    // 판매 수익
   String qeezeYN;        // 퀴즈 정답 여부
+  String feverYN;       // 피버타임
   int disposePrice;   // 폐기수익
   int orderPrice;     // 발주 비용
   int dayendcash;     // 잔고(N일차 시작 시)
