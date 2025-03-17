@@ -3,7 +3,10 @@ package com.bs.spring.ajaxcontroller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bs.spring.maingame.model.dto.Game;
+import com.bs.spring.maingame.model.dto.Product;
 import com.bs.spring.maingame.model.wrapper.RevenueWrapper;
+import com.bs.spring.member.model.dto.Member;
 import com.bs.spring.member.model.dto.Storage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,12 +20,34 @@ import com.bs.spring.member.model.dto.Goods;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/maingame")
 @CrossOrigin("*")
 public class MainGameController {
   private final MainGameService service;
+
+  @RequestMapping("/newgame")
+  public ResponseEntity startNewGame(@RequestBody Game game){
+    System.out.println(game);
+    int result = service.startNewGame(game);
+    System.out.println("결과 : " + result);
+    if(result>0){
+      return ResponseEntity.ok().body(result);
+    }else {
+      return ResponseEntity.noContent().build();
+    }
+  }
+
+  @RequestMapping("/gamestart")
+  public ResponseEntity gameStart(Integer gameNo){
+    List<Product> product = service.getAllProductByGameNo(gameNo);
+    System.out.println(product);
+    product.forEach(System.out::println);
+    return ResponseEntity.ok().body(product);
+  }
 
   @RequestMapping("/gameend")
   public ResponseEntity gameEnd(@RequestBody RevenueWrapper statement){
@@ -58,5 +83,12 @@ public class MainGameController {
     }else{
       return ResponseEntity.badRequest().build();
     }
+  }
+
+  @RequestMapping("/expense")
+  public ResponseEntity moneyExpense(Integer price, Integer gameNo){
+    int result = service.moneyExpense(price,gameNo);
+    System.out.println(result);
+    return ResponseEntity.ok().build();
   }
 }

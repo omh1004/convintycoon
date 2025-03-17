@@ -6,5 +6,5 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 
 public interface StorageDao {
-    List<Store> selectAllPrd(SqlSession session);
+    List<Store> selectAllPrd(SqlSession session, Integer gameNo);
 }

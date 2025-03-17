@@ -8,7 +8,7 @@ import com.bs.spring.member.model.dto.Storage;
 import java.util.List;
 
 public interface GoodsService {
-    List<Ordering> selectAllPrd();
+    List<Ordering> selectAllPrd(Integer gameNo);
 
     int insertOrdering(List<Storage> goods);
 

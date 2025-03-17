@@ -22,10 +22,10 @@ public class StorageController {
     private final StorageService storageService;
 
     @GetMapping("/findStorageAll")
-    public ResponseEntity<List<Store>> findStorageAll(){
+    public ResponseEntity<List<Store>> findStorageAll(Integer gameNo){
 
         log.info(" 요청 received: " );
-        List<Store> result = storageService.findStorageAll();
+        List<Store> result = storageService.findStorageAll(gameNo);
 
 
         if (result == null) {

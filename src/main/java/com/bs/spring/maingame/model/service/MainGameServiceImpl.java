@@ -1,5 +1,7 @@
 package com.bs.spring.maingame.model.service;
 
+import com.bs.spring.maingame.model.dto.Game;
+import com.bs.spring.maingame.model.dto.Product;
 import com.bs.spring.member.model.dto.Goods;
 import com.bs.spring.member.model.dto.Storage;
 import org.apache.ibatis.session.SqlSession;
@@ -21,6 +23,25 @@ public class MainGameServiceImpl implements MainGameService{
 
   @Override
   @Transactional
+  public int startNewGame(Game game){
+    int result = dao.newGame(session, game);
+    int gameCode = dao.getNewGameCode(session, game.getUserId());
+    int result2 = dao.newLoan(session, game.getUserId(), gameCode);
+    if(result>0 && result2>0){
+      return gameCode;
+    }else{
+      return 0;
+    }
+  }
+
+  @Override
+  public List<Product> getAllProductByGameNo(Integer gameNo){
+    List<Product> product = dao.getAllProductByGameNo(session, gameNo);
+    return product;
+  }
+
+  @Override
+  @Transactional
   public int saveRevenueAndUpdateStorage(Revenue revenue, List<Storage> storage){
     int result = dao.saveEndResult(session, revenue);
     storage.forEach(s->{
@@ -28,6 +49,11 @@ public class MainGameServiceImpl implements MainGameService{
     });
 
     return result;
+  }
+
+  @Override
+  public int moneyExpense(Integer price, Integer gameNo){
+    return dao.moneyExpense(session, price, gameNo);
   }
 //  @Override
 //  public int saveEndResult(Revenue revenue){

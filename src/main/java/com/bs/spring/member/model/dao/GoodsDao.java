@@ -9,7 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 
 public interface GoodsDao {
-    List<Ordering> selectAllPrd(SqlSession session);
+    List<Ordering> selectAllPrd(SqlSession session, Integer gameNo);
 
     int insertOrdering(SqlSession session, Storage goods);
 
