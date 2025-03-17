@@ -57,7 +57,7 @@ public class MyWebAppConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE","OPTIONS")
-                .allowedOrigins("http://localhost:5173")
+                .allowedOrigins("http://localhost:5173","http://43.203.179.50")
                 .allowedHeaders("*");
 //                .allowCredentials(false);
 //        registry.addMapping("/**")
