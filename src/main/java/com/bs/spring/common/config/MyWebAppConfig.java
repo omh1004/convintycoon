@@ -3,11 +3,13 @@ package com.bs.spring.common.config;
 import com.bs.spring.common.error.MyException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -16,13 +18,14 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import java.util.List;
 import java.util.Properties;
 
 @Configuration
-
+@RequiredArgsConstructor
 public class MyWebAppConfig implements WebMvcConfigurer {
 
-
+    private final LoginMemberArgumentResolver loginMemberArgumentResolver;
 
     @Bean
     public MessageSource messageSource() {
@@ -31,7 +34,10 @@ public class MyWebAppConfig implements WebMvcConfigurer {
         return messageSource;
     }
 
-
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(loginMemberArgumentResolver);
+    }
 ////    @Bean
 //    public HandlerExceptionResolver exceptionResolver() {
 //        //에러페이지를 연결해 주는 Resolver
@@ -58,8 +64,8 @@ public class MyWebAppConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE","OPTIONS")
                 .allowedOrigins("http://localhost:5173","http://43.203.179.50","http://http://3.38.185.252/")
-                .allowedHeaders("*");
-//                .allowCredentials(false);
+                .allowedHeaders("*")
+                .allowCredentials(true);
 //        registry.addMapping("/**")
 //                .allowedOrigins("*");
     }
