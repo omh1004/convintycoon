@@ -3,7 +3,8 @@
 <mapper namespace="ordering">
     <select id="selectAllPrd" parameterType="int" resultType="ordering">
 
-        select goodsno,GOODSNAME, sum(ORDERQUANTITY) as ORDERQUANTITY,ORDERPRICE,GOODSTYPE,IMAGE
+        select goodsno,GOODSNAME, sum(ORDERQUANTITY) as ORDERQUANTITY,ORDERPRICE,GOODSTYPE,IMAGE,STORAGELEVEL
+
         from
             (select
                  g.goodsno
@@ -13,13 +14,14 @@
                   ,decode(s.ORDERQUANTITY,null,0,s.ORDERQUANTITY) as ORDERQUANTITY
                   ,decode(s.EXPDATE,null,g.TYPEEXPDATE,s.EXPDATE) as expdate
                   ,g.GOODSNAME
+                  ,(select STORAGELEVEL from game where PLAYNO=#{gameNo}) STORAGELEVEL
              from GOODS g,
                   (select * from storage where PLAYNO=#{gameNo}) s
              where g.GOODSNO = s.GOODSNO(+)
              and g.IMAGE  not LIKE '%' || 50 || '%'
 
             )
-        group by GOODSNAME,goodsno,ORDERPRICE,GOODSTYPE,IMAGE
+        group by GOODSNAME,goodsno,ORDERPRICE,GOODSTYPE,IMAGE,STORAGELEVEL
     </select>
 
 

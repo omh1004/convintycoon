@@ -48,6 +48,7 @@ public class RestSellContoroller {
                 log.info(" 요청 received: " );
                 List<Ordering> result = goodsService.selectAllPrd(gameNo);
 
+                log.info("result결과::: "+result);
 
                 if (result == null) {
                         log.info(" 1. 상품전체조회");
