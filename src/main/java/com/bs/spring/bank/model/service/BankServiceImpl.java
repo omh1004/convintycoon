@@ -28,10 +28,10 @@ public class BankServiceImpl implements BankService {
         return dao.findLoanById(session, loanNo);
     }
 
-    @Override
-    public int updateLoanAmount(int loanNo, int newAmount) {
-        return dao.updateLoanAmount(session, loanNo, newAmount);
-    }
+//    @Override
+//    public int updateLoanAmount(int loanNo, int newAmount) {
+//        return dao.updateLoanAmount(session, loanNo, newAmount);
+//    }
 
 
 
