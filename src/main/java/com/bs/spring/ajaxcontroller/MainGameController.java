@@ -8,6 +8,7 @@ import com.bs.spring.maingame.model.dto.Product;
 import com.bs.spring.maingame.model.wrapper.RevenueWrapper;
 import com.bs.spring.member.model.dto.Member;
 import com.bs.spring.member.model.dto.Storage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.servlet.http.HttpSession;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/maingame")
@@ -94,6 +96,7 @@ public class MainGameController {
 
   @RequestMapping("/moneydata")
   public ResponseEntity moneyData(Integer gameNo){
+    log.info("gameNO+:::"+gameNo);
     int money = service.getMoneyData(gameNo);
     return ResponseEntity.ok().body(money);
   }
