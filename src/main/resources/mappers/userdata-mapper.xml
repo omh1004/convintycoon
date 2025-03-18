@@ -51,7 +51,7 @@
             FROM member m
                      LEFT JOIN game g ON m.USERID = g.USER_ID
                      LEFT JOIN revenue r ON g.PLAY_NO = r.PLAY_NO
-            WHERE m.USERID = #{userId}
+            WHERE m.USERID = #{userId} and g.play_no = (select max(play_no) from game where userid = #{userId})
             GROUP BY m.USERID, m.NICKNAME, m.EMAIL, g.CASH, g.LOAN, g.STORAGELEVEL, g.PLAY_NO
         </select>
 

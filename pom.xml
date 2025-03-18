@@ -125,6 +125,6 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>springcore</finalName>
+    <finalName>spring</finalName>
   </build>
 </project>

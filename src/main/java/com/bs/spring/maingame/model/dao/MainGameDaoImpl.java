@@ -79,7 +79,7 @@ public class MainGameDaoImpl implements MainGameDao {
         Map<String, Integer> params = new HashMap<>();
         params.put("price", price);
         params.put("gameNo", gameNo);
-        return session.update("maingame.moneyExpense",params);
+        return session.update("maingame.moneyChange",params);
     }
 
     @Override

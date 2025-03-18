@@ -16,7 +16,7 @@
     </resultMap>
     <insert id="saveEndResult" parameterType="revenue">
         insert into revenue(revenue_no, play_no, salesday, salesmount, qeezeyn, feveryn, disposeprice, orderprice, dayendcash)
-        values(test_revenue_seq.nextval, 1 ,#{salesDay}, #{salesMount}, #{qeezeYN}, #{feverYN}, #{disposePrice}, #{orderPrice}, #{dayendcash})
+        values(test_revenue_seq.nextval, #{playNo} ,#{salesDay}, #{salesMount}, #{qeezeYN}, #{feverYN}, #{disposePrice}, #{orderPrice}, #{dayendcash})
     </insert>
     <update id="updateStorage" parameterType="storage">
         update storage set orderquantity=#{orderquantity}, expdate=#{expdate}, saleprice=#{saleprice} where orderingno=#{orderingno}
@@ -34,10 +34,13 @@
         select max(play_no) from game where user_id=#{userId}
     </select>
     <insert id="newLoan" parameterType="map">
-        insert into bank values(null, loan_seq.nextval, 1000000, (select memberno from member where userid=#{userId}), #{userId}, #{gameNo})
+        insert into bank values(sysdate, loan_seq.nextval, 1000000, (select memberno from member where userid=#{userId}), #{userId}, #{gameNo})
     </insert>
     <update id="moneyExpense" parameterType="map">
         update game set cash=cash+#{price} where play_no=#{gameNo}
+    </update>
+    <update id="moneyChange" parameterType="map">
+        update game set cash=#{price} where play_no=#{gameNo}
     </update>
     <select id="getMoneyData" resultType="int">
         select cash from game where play_no=#{gameNo}
