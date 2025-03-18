@@ -3,6 +3,7 @@ package com.bs.spring.bank.controller;
 import com.bs.spring.bank.model.dto.Bank;
 import com.bs.spring.bank.model.service.BankService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/bank")
@@ -58,6 +60,7 @@ public class BankController {
     public ResponseEntity<Map<String, Object>> getDailyRevenue(@RequestParam String userId, @RequestParam int selectedDay) {
         System.out.println("🔴 getDailyRevenue 실행: userId = " + userId + ", salesDay = " + selectedDay);
         Map<String, Object> revenueData = bankService.getDailyRevenue(userId, selectedDay);
+        log.info("qwer1"+revenueData);
         return ResponseEntity.ok(revenueData);
     }
 
