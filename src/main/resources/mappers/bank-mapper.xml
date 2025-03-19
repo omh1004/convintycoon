@@ -84,6 +84,12 @@
                )
     </insert>
 
+    <update id="updateCash">
+        UPDATE GAME
+        SET CASH = CASH + #{loanMoney}
+        WHERE PLAY_NO = #{gameNo}
+    </update>
+
     <select id="getPlaydayByGameNo" parameterType="String" resultType="int">
         SELECT MAX(playday)
         FROM game

@@ -44,7 +44,22 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public int insertLoan(Bank bank) {
-        return dao.insertLoan(session, bank);
+//        return dao.insertLoan(session, bank);
+        int result = dao.insertLoan(session, bank);  // 대출 정보 저장
+
+        if (result > 0) {
+            // 대출이 성공했으면, CASH 업데이트 실행
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("loanMoney", bank.getLoanMoney());
+            paramMap.put("gameNo", bank.getGameNo());
+            dao.updateCash(session, paramMap);
+
+            System.out.println("✅ 대출 성공! Cash 업데이트 완료");
+        } else {
+            System.out.println("❌ 대출 실패! Cash 업데이트 실패");
+        }
+        return result;
+
     }
 
     @Override
