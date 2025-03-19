@@ -26,7 +26,7 @@
         JOIN member m ON g.USER_ID = m.USERID
         GROUP BY g.USER_ID, m.NICKNAME
         HAVING SUM(r.SALESMOUNT) > 0
-        ) WHERE ranking &lt;= 6
+        ) WHERE ranking &lt;= 30
     </select>
 
 
