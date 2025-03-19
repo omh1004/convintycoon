@@ -22,4 +22,6 @@ public class Ordering {
     private String goodsname;
     private String goodstype;
     private Integer storagelevel;
+    private Integer amount;
+    private Integer playday;
 }

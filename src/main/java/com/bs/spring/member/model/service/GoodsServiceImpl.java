@@ -21,6 +21,11 @@ public class GoodsServiceImpl implements GoodsService{
     private final SqlSession session;
 
     @Override
+    public Ordering selectGameInfo(Integer gameNo) {
+        return goodsDao.selectGameInfo(session,gameNo);
+    }
+
+    @Override
     public int insertOrdering(List<Storage> goods) {
         int result = 0;
 
