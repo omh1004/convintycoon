@@ -21,8 +21,8 @@ public class BankController {
     private final BankService bankService;
 
     @GetMapping("/getLoans")
-    public ResponseEntity<List<Bank>> getUserLoans(@RequestParam String userId) {
-        List<Bank> userLoans = bankService.getLoansByUserId(userId);
+    public ResponseEntity<List<Bank>> getUserLoans(@RequestParam String gameNo) {
+        List<Bank> userLoans = bankService.getLoansByGameNo(gameNo);
         return ResponseEntity.ok(userLoans);
     }
 
@@ -50,16 +50,16 @@ public class BankController {
     }
 
     @GetMapping("/getPlayday")
-    public ResponseEntity<Integer> getPlayday(@RequestParam String userId) {
-        int playday = bankService.getPlaydayByUserId(userId);
+    public ResponseEntity<Integer> getPlayday(@RequestParam String gameNo) {
+        int playday = bankService.getPlaydayByGameNo(gameNo);
         return ResponseEntity.ok(playday);
     }
 
 
     @GetMapping("/getDailyRevenue")
-    public ResponseEntity<Map<String, Object>> getDailyRevenue(@RequestParam String userId, @RequestParam int selectedDay) {
-        System.out.println("🔴 getDailyRevenue 실행: userId = " + userId + ", salesDay = " + selectedDay);
-        Map<String, Object> revenueData = bankService.getDailyRevenue(userId, selectedDay);
+    public ResponseEntity<Map<String, Object>> getDailyRevenue(@RequestParam String gameNo, @RequestParam int selectedDay) {
+        System.out.println("🔴 getDailyRevenue 실행: gameNo = " + gameNo + ", salesDay = " + selectedDay);
+        Map<String, Object> revenueData = bankService.getDailyRevenue(gameNo, selectedDay);
         log.info("qwer1"+revenueData);
         return ResponseEntity.ok(revenueData);
     }

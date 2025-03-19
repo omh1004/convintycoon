@@ -30,16 +30,16 @@ public class BankDaoImpl implements BankDao {
 
     // ✅ 특정 회원의 대출 내역 조회 추가
     @Override
-    public List<Bank> getLoansByUserId(SqlSession session, String userId) {
+    public List<Bank> getLoansByGameNo(SqlSession session, String gameNo) {
 
-        if (userId == null || userId.trim().isEmpty()) {
-            System.out.println("ERROR: userId가 NULL이거나 비어 있음.");
-            throw new IllegalArgumentException("userId가 null이거나 빈 값입니다.");
+        if (gameNo == null || gameNo.trim().isEmpty()) {
+            System.out.println("ERROR: gameNo가 NULL이거나 비어 있음.");
+            throw new IllegalArgumentException("gameNo가 null이거나 빈 값입니다.");
         }
 
-        System.out.println("📌 MyBatis 실행: getLoansByUserId, userId = " + userId);
+        System.out.println("📌 MyBatis 실행: getLoansByGameNo, gameNo = " + gameNo);
 
-        return session.selectList("bank.getLoansByUserId", userId);
+        return session.selectList("bank.getLoansByGameNo", gameNo);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class BankDaoImpl implements BankDao {
     }
 
     @Override
-    public int getPlaydayByUserId(SqlSession session, String userId) {
-        return session.selectOne("bank.getPlaydayByUserId", userId);
+    public int getPlaydayByGameNo(SqlSession session, String gameNo) {
+        return session.selectOne("bank.getPlaydayByGameNo", gameNo);
     }
 
     @Override

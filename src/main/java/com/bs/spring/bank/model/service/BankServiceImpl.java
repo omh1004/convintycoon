@@ -38,8 +38,8 @@ public class BankServiceImpl implements BankService {
 
     // ✅ 특정 회원의 대출 내역 조회 추가
     @Override
-    public List<Bank> getLoansByUserId(String userId) {
-        return dao.getLoansByUserId(session, userId);
+    public List<Bank> getLoansByGameNo(String gameNo) {
+        return dao.getLoansByGameNo(session, gameNo);
     }
 
     @Override
@@ -48,14 +48,14 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public int getPlaydayByUserId(String userId) {
-        return dao.getPlaydayByUserId(session, userId);
+    public int getPlaydayByGameNo(String gameNo) {
+        return dao.getPlaydayByGameNo(session, gameNo);
     }
 
     @Override
-    public Map<String, Object> getDailyRevenue(String userId, int selectedDay) {
+    public Map<String, Object> getDailyRevenue(String gameNo, int selectedDay) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("userId", userId);
+        paramMap.put("gameNo", gameNo);
         paramMap.put("selectedDay", selectedDay);
         return dao.getDailyRevenue(session, paramMap);
     }
