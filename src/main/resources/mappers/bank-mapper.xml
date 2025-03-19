@@ -75,7 +75,7 @@
     <insert id="insertLoan">
         INSERT INTO BANK (LOAN_NO, LOANDATE, LOANMONEY, MEMBER_NO, USER_ID)
         VALUES (
-                       (SELECT NVL(MAX(LOAN_NO), 0) + 1 FROM BANK),
+                    loan_seq.nextval,
                        SYSDATE,
                        #{loanMoney},
                        (SELECT MEMBERNO FROM MEMBER WHERE USERID = #{userId}),
