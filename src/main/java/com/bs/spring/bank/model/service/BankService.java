@@ -7,7 +7,7 @@ public interface BankService {
 
     List<Bank> getAllLoans();
     Bank findLoanById(int loanNo);
-    int updateLoanAmount(int loanNo, int newAmount);
+//    int updateLoanAmount(int loanNo, int newAmount);
 
 
 

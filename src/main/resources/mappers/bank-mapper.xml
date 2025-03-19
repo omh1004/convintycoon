@@ -4,6 +4,14 @@
 
 <mapper namespace="bank">
 
+    <resultMap id="BankResultMap" type="com.bs.spring.bank.model.dto.Bank">
+        <result property="loanNo" column="loan_no"/>
+        <result property="loandate" column="loandate"/>
+        <result property="loanMoney" column="loanMoney"/>
+        <result property="loanType" column="loanType"/> <!-- DB에 없지만 쿼리에서 만든 값 -->
+    </resultMap>
+
+
     <!-- ✅ 모든 대출 내역 조회 -->
     <select id="getAllLoans" resultType="com.bs.spring.bank.model.dto.Bank">
         SELECT
@@ -32,9 +40,35 @@
 <!--        VALUES (#{loanNo}, #{loanMoney}, #{memberNo}, #{userId}, #{loanDate})-->
 <!--    </insert>-->
 
-    <select id="getLoansByUserId" parameterType="String" resultType="com.bs.spring.bank.model.dto.Bank">
-        SELECT * FROM BANK WHERE USER_ID = #{userId} ORDER BY LOANDATE DESC
+<!--    SELECT * FROM BANK WHERE USER_ID = #{userId} ORDER BY LOANDATE DESC-->
+    <select id="getLoansByUserId" parameterType="String" resultMap="BankResultMap">
+        SELECT loan_no, loandate, loanMoney,
+               CASE
+                   WHEN loanMoney = 1000000
+                       AND loan_no = (SELECT MIN(loan_no)
+                                      FROM BANK
+                                      WHERE USER_ID = #{userId}
+                                        AND loanMoney = 1000000)
+                       THEN '초기 운영 대출금'
+                   ELSE '중간 운영 대출금'
+                   END AS loanType
+        FROM BANK
+        WHERE USER_ID = #{userId}
+        ORDER BY
+            CASE
+                WHEN loanMoney = 1000000
+                    AND loan_no = (SELECT MIN(loan_no)
+                                   FROM BANK
+                                   WHERE USER_ID = #{userId}
+                                     AND loanMoney = 1000000)
+                    THEN 1  -- ✅ 초기 운영 대출금은 가장 아래로
+                ELSE 0  -- ✅ 중간 운영 대출금은 위쪽으로
+                END ASC,
+            LOANDATE DESC, -- ✅ 최신 대출이 위쪽에 오도록 정렬
+            LOAN_NO DESC   -- ✅ 동일한 날짜라면 최신 대출이 위쪽에 위치
     </select>
+
+
 
 
     <!-- ✅ 대출 신청 (INSERT) -->

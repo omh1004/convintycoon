@@ -10,7 +10,7 @@ public interface BankDao {
 
     List<Bank> getAllLoans(SqlSession session);
     Bank findLoanById(SqlSession session, int loanNo);
-    int updateLoanAmount(SqlSession session, int loanNo, int newAmount);
+//    int updateLoanAmount(SqlSession session, int loanNo, int newAmount);
 
 
     // ✅ 특정 회원의 대출 내역 조회 추가

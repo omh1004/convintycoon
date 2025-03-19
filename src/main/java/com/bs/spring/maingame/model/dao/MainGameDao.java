@@ -21,4 +21,5 @@ public interface MainGameDao {
   int moneyExpense(SqlSession session, Integer price, Integer gameNo);
   int moneyChange(SqlSession session, Integer price, Integer gameNo);
   int getMoneyData(SqlSession session, Integer gameNo);
+  int getGamePlayDay(SqlSession session, String userId);
 }

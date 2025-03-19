@@ -16,4 +16,5 @@ public interface MainGameService {
   int getMoneyData(Integer gameNo);
 //  int saveEndResult(Revenue revenue);
 //  int updateStorage(Storage storage);
+  int getGamePlayDay(String userId);
 }
