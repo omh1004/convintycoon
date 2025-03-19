@@ -18,4 +18,5 @@ public class Game {
     private Integer playDay;
     private Integer storageLevel;
     private Integer state;
+    private Integer reliability;
 }
