@@ -56,4 +56,7 @@
     <update id="daysChange" parameterType="map">
         update game set playday=#{salesDay} where play_no=#{gameNo}
     </update>
+    <select id="quizAnswer" parameterType="int" resultType="_int">
+        select count(qeezeyn)
+    </select>
 </mapper>
