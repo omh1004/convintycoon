@@ -50,9 +50,9 @@ public class BankServiceImpl implements BankService {
         if (result > 0) {
             // 대출이 성공했으면, CASH 업데이트 실행
             Map<String, Object> paramMap = new HashMap<>();
-            paramMap.put("loanMoney", bank.getLoanMoney());
             paramMap.put("gameNo", bank.getGameNo());
-            dao.updateCash(session, paramMap);
+            paramMap.put("loanMoney", bank.getLoanMoney());
+            dao.updateGameLoan(session, paramMap);
 
             System.out.println("✅ 대출 성공! Cash 업데이트 완료");
         } else {
@@ -73,6 +73,11 @@ public class BankServiceImpl implements BankService {
         paramMap.put("gameNo", gameNo);
         paramMap.put("selectedDay", selectedDay);
         return dao.getDailyRevenue(session, paramMap);
+    }
+
+    @Override
+    public int getGameCash(String gameNo) {
+        return dao.getGameCash(session, gameNo);
     }
 
 }

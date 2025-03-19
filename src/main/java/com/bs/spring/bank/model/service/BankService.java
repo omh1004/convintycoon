@@ -18,4 +18,6 @@ public interface BankService {
     int getPlaydayByGameNo(String gameNo);
 
     Map<String, Object> getDailyRevenue(String gameNo, int selectedDay);
+
+    int getGameCash(String gameNo);
 }
