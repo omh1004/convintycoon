@@ -14,11 +14,11 @@ public interface BankDao {
 
 
     // ✅ 특정 회원의 대출 내역 조회 추가
-    List<Bank> getLoansByUserId(SqlSession session, String userId);
+    List<Bank> getLoansByGameNo(SqlSession session, String gameNo);
 
     int insertLoan(SqlSession session, Bank bank);
 
-    int getPlaydayByUserId(SqlSession session, String userId);
+    int getPlaydayByGameNo(SqlSession session, String gameNo);
 
     Map<String, Object> getDailyRevenue(SqlSession session, Map<String, Object> paramMap);
 }

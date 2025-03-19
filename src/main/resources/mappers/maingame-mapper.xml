@@ -28,7 +28,7 @@
             from storage s join goods g on s.goodsno=g.goodsno where playno=#{gameNo}
     </select>
     <insert id="newGame" parameterType="game">
-        insert into game values(#{playDay}, #{storageLevel}, #{cash}, #{loan}, (select memberno from member where userid=#{userId}),playgame_seq.nextval,#{state},#{userId})
+        insert into game values(#{playDay}, #{storageLevel}, #{cash}, #{loan}, (select memberno from member where userid=#{userId}),playgame_seq.nextval,#{state},#{userId},#{reliability})
     </insert>
     <select id="getNewGameCode" parameterType="string" resultType="_int">
         select max(play_no) from game where user_id=#{userId}
