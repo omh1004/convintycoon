@@ -73,13 +73,14 @@
 
     <!-- ✅ 대출 신청 (INSERT) -->
     <insert id="insertLoan">
-        INSERT INTO BANK (LOAN_NO, LOANDATE, LOANMONEY, MEMBER_NO, PLAY_NO)
+        INSERT INTO BANK (LOAN_NO, LOANDATE, LOANMONEY, MEMBER_NO, PLAY_NO, USER_ID)
         VALUES (
                        loan_seq.nextval,
                        SYSDATE,
                        #{loanMoney},
                        (SELECT MEMBERNO FROM MEMBER WHERE USERID = (SELECT USER_ID FROM GAME WHERE PLAY_NO = #{gameNo})),
-                       #{gameNo}
+                       #{gameNo},
+                       (SELECT USER_ID FROM GAME WHERE PLAY_NO = #{gameNo})
                )
     </insert>
 
