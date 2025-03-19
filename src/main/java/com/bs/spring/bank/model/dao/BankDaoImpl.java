@@ -48,6 +48,12 @@ public class BankDaoImpl implements BankDao {
     }
 
     @Override
+    public int updateCash(SqlSession session, Map<String, Object> paramMap) {
+        return session.update("bank.updateCash", paramMap);
+    }
+
+
+    @Override
     public int getPlaydayByGameNo(SqlSession session, String gameNo) {
         return session.selectOne("bank.getPlaydayByGameNo", gameNo);
     }
