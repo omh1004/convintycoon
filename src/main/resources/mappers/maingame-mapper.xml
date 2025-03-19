@@ -45,4 +45,12 @@
     <select id="getMoneyData" resultType="int">
         select cash from game where play_no=#{gameNo}
     </select>
+
+    <select id="getGamePlayDay" parameterType="string" resultType="_int">
+        SELECT PLAYDAY FROM (
+                          SELECT * FROM game
+                          WHERE user_id = #{userId}
+                          ORDER BY play_no DESC
+                      ) WHERE ROWNUM = 1
+    </select>
 </mapper>

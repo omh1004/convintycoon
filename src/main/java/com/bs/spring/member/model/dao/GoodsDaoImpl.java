@@ -17,6 +17,11 @@ public class GoodsDaoImpl implements GoodsDao{
         return session.selectList("ordering.selectAllPrd",gameNo);
     }
 
+    @Override
+    public Ordering selectGameInfo(SqlSession session, Integer gameNo) {
+        return session.selectOne("ordering.selectGameInfo",gameNo);
+    }
+
     @Transactional
     @Override
     public int insertOrdering(SqlSession session, Storage goods) {

@@ -12,5 +12,7 @@ public interface GoodsService {
 
     int insertOrdering(List<Storage> goods);
 
+    Ordering selectGameInfo(Integer gameNo);
+
 //    int insertOrdering(List<Goods> goods);
 }

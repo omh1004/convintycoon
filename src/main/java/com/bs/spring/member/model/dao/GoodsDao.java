@@ -13,5 +13,7 @@ public interface GoodsDao {
 
     int insertOrdering(SqlSession session, Storage goods);
 
+    Ordering selectGameInfo(SqlSession session, Integer gameNo);
+
 //    int insertOrdering(SqlSession session ,Goods inputGoods);
 }

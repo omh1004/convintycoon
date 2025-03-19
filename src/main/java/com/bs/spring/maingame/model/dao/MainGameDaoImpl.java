@@ -86,4 +86,10 @@ public class MainGameDaoImpl implements MainGameDao {
     public int getMoneyData(SqlSession session, Integer gameNo){
         return session.selectOne("maingame.getMoneyData", gameNo);
     }
+
+    @Override
+    @Transactional
+    public int getGamePlayDay(SqlSession session, String userId) {
+        return session.selectOne("maingame.getGamePlayDay", userId);
+    }
 }

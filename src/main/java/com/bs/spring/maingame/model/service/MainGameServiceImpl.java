@@ -68,4 +68,10 @@ public class MainGameServiceImpl implements MainGameService{
 //
 //  @Override
 //  public int updateStorage(Storage storage){ return dao.updateStorage(session, storage); }
+
+
+  @Override
+  public int getGamePlayDay(String userId) {
+    return dao.getGamePlayDay(session, userId);
+  }
 }

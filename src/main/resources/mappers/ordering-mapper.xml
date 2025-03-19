@@ -20,8 +20,25 @@
 
             )
         group by GOODSNAME,goodsno,ORDERPRICE,GOODSTYPE,IMAGE
+        order by ORDERPRICE
     </select>
 
+    <select id="selectGameInfo"  parameterType="int"  resultType="ordering">
+        select
+            (case
+                 when storagelevel =1 then 50
+                 when storagelevel =2 then 70
+                 when storagelevel =3 then 90
+                 when storagelevel =4 then 110
+                 when storagelevel =5 then 130
+                 else 150
+                end) as  storagelevel
+             ,cash
+             ,playday
+        from GAME
+        where 1=1
+        and PLAY_NO=#{gameNo}
+    </select>
 
         <!-- 단일 Storage 객체를 INSERT 처리하는 쿼리 (필요 시 사용) -->
         <insert id="insertOrdering" parameterType="com.bs.spring.member.model.dto.Storage">
