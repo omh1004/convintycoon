@@ -19,4 +19,7 @@ public class Store {
     private Integer expdate;
     private Integer orderquantity;
     private String image;
+    private Integer amount;
+    private Integer storagelevel;
+    private Integer playday;
 }

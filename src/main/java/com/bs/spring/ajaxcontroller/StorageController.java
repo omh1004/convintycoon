@@ -2,6 +2,7 @@ package com.bs.spring.ajaxcontroller;
 
 import com.bs.spring.member.model.dto.Ordering;
 import com.bs.spring.member.model.dto.Store;
+import com.bs.spring.member.model.service.GoodsService;
 import com.bs.spring.storage.model.service.StorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +24,16 @@ public class StorageController {
 
     @GetMapping("/findStorageAll")
     public ResponseEntity<List<Store>> findStorageAll(Integer gameNo){
-
         log.info(" 요청 received: " );
         List<Store> result = storageService.findStorageAll(gameNo);
 
+        Ordering subResult = storageService.selectGameInfo(gameNo);
+
+        result.get(0).setStoragelevel(subResult.getStoragelevel());
+        result.get(0).setAmount(subResult.getAmount());
+        result.get(0).setPlayday(subResult.getPlayday());
+        log.info("result결과::: "+result);
+        log.info("result잔금결과::: "+subResult.getAmount()+subResult.getPlayday()+subResult.getStoragelevel());
 
         if (result == null) {
             log.info(" 1. 상품전체조회");
@@ -36,24 +43,13 @@ public class StorageController {
         }
     }
 
-
     @PostMapping("/expandStorage")
     public ResponseEntity<?> expandStorage() {
         try {
-
-
-
-            
-
-
             return null;
-
-
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Storage expansion failed: " + e.getMessage());
         }
     }
-
-
 }

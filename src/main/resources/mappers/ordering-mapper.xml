@@ -52,7 +52,7 @@
                 SALEDGREE,
                 DISPOSALYN
             ) VALUES (
-                         ordering_seq.NEXTVAL+1,
+                         ordering_seq.NEXTVAL,
                          #{goodsno},
                          #{playno},
                          #{expdate},

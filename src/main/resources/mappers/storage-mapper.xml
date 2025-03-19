@@ -5,25 +5,41 @@
         select  GOODSNO
              ,GOODSTYPE
              ,GOODSNAME
-             ,EXPDATE
              ,image
              ,sum(ORDERQUANTITY) as ORDERQUANTITY
+             ,expyn
         from
             (select s.GOODSNO,
-                    decode(s.EXPDATE, 0, 0, 1) as EXPDATE,
-                    g.GOODSTYPE,
+                    decode(s.EXPDATE ,1,0,1) as expyn
+                     ,g.GOODSTYPE,
                     g.GOODSNAME,
                     s.ORDERQUANTITY,
-                    decode(s.EXPDATE, 0,g.DEIMAGE,g.IMAGE ) image
+                    decode(s.EXPDATE, 1,g.DEIMAGE,g.IMAGE ) image
              from GOODS g,
                   STORAGE s
              where 1 = 1
                and g.GOODSNO(+) = s.GOODSNO
                and s.playno=#{gameNo}
             )
-        group by  GOODSNO,GOODSTYPE,GOODSNAME,EXPDATE,image
+        group by  GOODSNO,GOODSTYPE,GOODSNAME,image,expyn
+
+
     </select>
-
-
+<select id="selectGameInfo" resultType="ordering">
+    select
+    (case
+    when storagelevel =1 then 50
+    when storagelevel =2 then 70
+    when storagelevel =3 then 90
+    when storagelevel =4 then 110
+    when storagelevel =5 then 130
+    else 150
+    end) as  storagelevel
+    ,cash
+    ,playday
+    from GAME
+    where 1=1
+    and PLAY_NO=#{gameNo}
+</select>
 
     </mapper>
