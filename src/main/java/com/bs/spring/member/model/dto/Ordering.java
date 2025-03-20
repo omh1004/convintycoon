@@ -21,4 +21,8 @@ public class Ordering {
     private Integer expdate;
     private String goodsname;
     private String goodstype;
+    private Integer storagelevel;
+    private Integer amount;
+    private Integer playday;
+    private Integer storagecount;
 }

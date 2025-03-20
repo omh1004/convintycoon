@@ -18,7 +18,7 @@
         insert into revenue(revenue_no, play_no, salesday, salesmount, feveryn, qeezeyn, disposeprice, orderprice, dayendcash)
         values(test_revenue_seq.nextval, #{playNo} ,#{salesDay}, #{salesMount}, #{feverYN}, #{qeezeYN}, #{disposePrice}, #{orderPrice}, #{dayendcash})
     </insert>
-    <update id="updateStorage">
+    <update id="updateStorage" parameterType="storage">
         update storage set orderquantity=#{orderquantity}, expdate=#{expdate}, saleprice=#{saleprice} where orderingno=#{orderingno}
     </update>
     <select id="getAllProductByGameNo" parameterType="int" resultMap="productMap">
@@ -31,20 +31,30 @@
         select max(play_no) from game where user_id=#{userId}
     </select>
     <insert id="newLoan" parameterType="map">
-        insert into bank values(null, loan_seq.nextval,1000000, (select memberno from member where userid=#{userId}),#{userId},#{playNo})
+        insert into bank values(sysdate, loan_seq.nextval, 1000000, (select memberno from member where userid=#{userId}), #{userId}, #{gameNo})
     </insert>
-    <select id="getMoneyData" parameterType="int" resultType="_int">
-        select cash from game where play_no=#{gameNo}
-    </select>
     <update id="moneyExpense" parameterType="map">
         update game set cash=cash+#{price} where play_no=#{gameNo}
     </update>
     <update id="moneyChange" parameterType="map">
         update game set cash=#{price} where play_no=#{gameNo}
     </update>
+    <select id="getMoneyData" resultType="int">
+        select cash from game where play_no=#{gameNo}
+    </select>
+
+    <select id="getGamePlayDay" parameterType="string" resultType="_int">
+        SELECT PLAYDAY FROM (
+                          SELECT * FROM game
+                          WHERE user_id = #{userId}
+                          ORDER BY play_no DESC
+                      ) WHERE ROWNUM = 1
     <select id="getCashAndLoan" parameterType="int" resultType="game">
         select playday, cash, loan from game where play_no=#{gameNo}
     </select>
+    <update id="daysChange" parameterType="map">
+        update game set playday=#{salesDay} where play_no=#{gameNo}
+    </update>
     <select id="getQuizAndDispose" parameterType="int" resultType="revenue">
         select qeezeYN, disposeprice from revenue where play_no=#{gameNo}
     </select>

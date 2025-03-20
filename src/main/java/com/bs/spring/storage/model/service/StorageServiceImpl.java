@@ -23,4 +23,9 @@ public class StorageServiceImpl implements StorageService {
         List<Store> result = storageDao.selectAllPrd(session, gameNo);
         return result;
     }
+
+    @Override
+    public Ordering selectGameInfo(Integer gameNo) {
+        return storageDao.selectGameInfo(session,gameNo);
+    }
 }

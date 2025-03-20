@@ -7,15 +7,17 @@ public interface BankService {
 
     List<Bank> getAllLoans();
     Bank findLoanById(int loanNo);
-    int updateLoanAmount(int loanNo, int newAmount);
+//    int updateLoanAmount(int loanNo, int newAmount);
 
 
 
     // ✅ 특정 유저의 대출 내역 조회 메서드 추가
-    List<Bank> getLoansByUserId(String userId);
+    List<Bank> getLoansByGameNo(String gameNo);
     int insertLoan(Bank bank);
 
-    int getPlaydayByUserId(String userId);
+    int getPlaydayByGameNo(String gameNo);
 
-    Map<String, Object> getDailyRevenue(String userId, int selectedDay);
+    Map<String, Object> getDailyRevenue(String gameNo, int selectedDay);
+
+    int getGameCash(String gameNo);
 }

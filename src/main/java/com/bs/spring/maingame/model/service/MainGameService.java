@@ -18,4 +18,5 @@ public interface MainGameService {
   Map<String,Object> getCashLoanQuiz(Integer gameNo);
 //  int saveEndResult(Revenue revenue);
 //  int updateStorage(Storage storage);
+  int getGamePlayDay(String userId);
 }

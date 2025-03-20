@@ -23,6 +23,8 @@ public interface MainGameDao {
   int moneyExpense(SqlSession session, Integer price, Integer gameNo);
   int moneyChange(SqlSession session, Integer price, Integer gameNo);
   int getMoneyData(SqlSession session, Integer gameNo);
+  int getGamePlayDay(SqlSession session, String userId);
+  int daysChange(SqlSession session, Integer salesDay, Integer gameNo);
   Game getCashAndLoan(SqlSession session, Integer gameNo);
   List<Revenue> getQuizAndDispose(SqlSession session, Integer gameNo);
 }

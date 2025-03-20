@@ -4,6 +4,14 @@
 
 <mapper namespace="bank">
 
+    <resultMap id="BankResultMap" type="com.bs.spring.bank.model.dto.Bank">
+        <result property="loanNo" column="loan_no"/>
+        <result property="loandate" column="loandate"/>
+        <result property="loanMoney" column="loanMoney"/>
+        <result property="loanType" column="loanType"/> <!-- DB에 없지만 쿼리에서 만든 값 -->
+    </resultMap>
+
+
     <!-- ✅ 모든 대출 내역 조회 -->
     <select id="getAllLoans" resultType="com.bs.spring.bank.model.dto.Bank">
         SELECT
@@ -32,29 +40,85 @@
 <!--        VALUES (#{loanNo}, #{loanMoney}, #{memberNo}, #{userId}, #{loanDate})-->
 <!--    </insert>-->
 
-    <select id="getLoansByUserId" parameterType="String" resultType="com.bs.spring.bank.model.dto.Bank">
-        SELECT * FROM BANK WHERE USER_ID = #{userId} ORDER BY LOANDATE DESC
+<!--    SELECT * FROM BANK WHERE USER_ID = #{userId} ORDER BY LOANDATE DESC-->
+    <select id="getLoansByGameNo" parameterType="String" resultMap="BankResultMap">
+        SELECT loan_no, loandate, loanMoney,
+               CASE
+                   WHEN loanMoney = 1000000
+                       AND loan_no = (SELECT MIN(loan_no)
+                                      FROM BANK
+                                      WHERE PLAY_NO = #{gameNo}
+                                        AND loanMoney = 1000000)
+                       THEN '초기 운영 대출금'
+                   ELSE '중간 운영 대출금'
+                   END AS loanType
+        FROM BANK
+        WHERE PLAY_NO = #{gameNo}
+        ORDER BY
+            CASE
+                WHEN loanMoney = 1000000
+                    AND loan_no = (SELECT MIN(loan_no)
+                                   FROM BANK
+                                   WHERE PLAY_NO = #{gameNo}
+                                     AND loanMoney = 1000000)
+                    THEN 1  -- ✅ 초기 운영 대출금은 가장 아래로
+                ELSE 0  -- ✅ 중간 운영 대출금은 위쪽으로
+                END ASC,
+            LOANDATE DESC, -- ✅ 최신 대출이 위쪽에 오도록 정렬
+            LOAN_NO DESC   -- ✅ 동일한 날짜라면 최신 대출이 위쪽에 위치
     </select>
+
+
 
 
     <!-- ✅ 대출 신청 (INSERT) -->
     <insert id="insertLoan">
-        INSERT INTO BANK (LOAN_NO, LOANDATE, LOANMONEY, MEMBER_NO, USER_ID)
+        INSERT INTO BANK (LOAN_NO, LOANDATE, LOANMONEY, MEMBER_NO, PLAY_NO, USER_ID)
         VALUES (
-                       (SELECT NVL(MAX(LOAN_NO), 0) + 1 FROM BANK),
+                       loan_seq.nextval,
                        SYSDATE,
                        #{loanMoney},
-                       (SELECT MEMBERNO FROM MEMBER WHERE USERID = #{userId}),
-                       #{userId}
+                       (SELECT MEMBERNO FROM MEMBER WHERE USERID = (SELECT USER_ID FROM GAME WHERE PLAY_NO = #{gameNo})),
+                       #{gameNo},
+                       (SELECT USER_ID FROM GAME WHERE PLAY_NO = #{gameNo})
                )
     </insert>
 
-    <select id="getPlaydayByUserId" parameterType="String" resultType="int">
+    <update id="updateGameLoan">
+        UPDATE GAME
+        SET CASH = CASH + #{loanMoney},
+            LOAN = LOAN + #{loanMoney}
+        WHERE PLAY_NO = #{gameNo}
+    </update>
+
+    <select id="getPlaydayByGameNo" parameterType="String" resultType="int">
         SELECT MAX(playday)
         FROM game
-        WHERE user_id = #{userId}
+        WHERE PLAY_NO = #{gameNo}
     </select>
 
+
+<!--     id="getDailyRevenue" parameterType="map" resultType="map"-->
+<!--        SELECT-->
+<!--            r.SALESDAY,-->
+<!--            r.SALESMOUNT AS "판매수익",-->
+<!--            CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END AS "퀴즈혜택",-->
+<!--            r.SALESMOUNT * 0.2 AS "폐기수익",-->
+<!--            (r.SALESMOUNT + (CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END) + (r.SALESMOUNT * 0.2)) AS "총수입",-->
+<!--            SUM(gd.ORDERPRICE * s.ORDERQUANTITY) AS "발주비용",-->
+<!--            20000 AS "운영비",-->
+<!--            (SUM(gd.ORDERPRICE * s.ORDERQUANTITY) + 20000) AS "총지출",  &#45;&#45; ✅ `g.ORDERPRICE` → `gd.ORDERPRICE` 로 수정-->
+<!--            ((r.SALESMOUNT + (CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END) + (r.SALESMOUNT * 0.2)) - (SUM(gd.ORDERPRICE * s.ORDERQUANTITY) + 20000)) AS "총계", &#45;&#45; ✅ 여기서도 수정해야 함!-->
+<!--            &#45;&#45; ✅ `잔고` 데이터 추가 (game 테이블의 CASH 컬럼)-->
+<!--            MAX(g.CASH) AS "잔고"-->
+<!--        FROM revenue r-->
+<!--                 JOIN game g ON r.PLAY_NO = g.PLAY_NO-->
+<!--                 JOIN storage s ON g.PLAY_NO = s.PLAYNO-->
+<!--                 JOIN goods gd ON gd.GOODSNO = s.GOODSNO  &#45;&#45; ✅ `goods` 테이블을 `gd` 별칭으로 사용-->
+<!--        WHERE g.USER_ID = #{gameNo}-->
+<!--          AND r.SALESDAY = #{selectedDay}-->
+<!--        GROUP BY r.SALESDAY, r.SALESMOUNT, r.QEEZEYN-->
+<!--    </select>-->
 
     <select id="getDailyRevenue" parameterType="map" resultType="map">
         SELECT
@@ -63,24 +127,26 @@
             CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END AS "퀴즈혜택",
             r.SALESMOUNT * 0.2 AS "폐기수익",
             (r.SALESMOUNT + (CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END) + (r.SALESMOUNT * 0.2)) AS "총수입",
-            SUM(gd.ORDERPRICE * s.ORDERQUANTITY) AS "발주비용",
+            SUM(s.ORDERQUANTITY * g.ORDERPRICE) AS "발주비용",  -- ✅ STORAGE 테이블에서 발주 개수 가져오기
             20000 AS "운영비",
-            (SUM(gd.ORDERPRICE * s.ORDERQUANTITY) + 20000) AS "총지출",  -- ✅ `g.ORDERPRICE` → `gd.ORDERPRICE` 로 수정
-            ((r.SALESMOUNT + (CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END) + (r.SALESMOUNT * 0.2)) - (SUM(gd.ORDERPRICE * s.ORDERQUANTITY) + 20000)) AS "총계", -- ✅ 여기서도 수정해야 함!
-            -- ✅ `잔고` 데이터 추가 (game 테이블의 CASH 컬럼)
-            MAX(g.CASH) AS "잔고"
+            (SUM(s.ORDERQUANTITY * g.ORDERPRICE) + 20000) AS "총지출",
+            ((r.SALESMOUNT + (CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END) + (r.SALESMOUNT * 0.2)) - (SUM(s.ORDERQUANTITY * g.ORDERPRICE) + 20000)) AS "총계",
+            MAX(gm.CASH) AS "잔고"
         FROM revenue r
-                 JOIN game g ON r.PLAY_NO = g.PLAY_NO
-                 JOIN storage s ON g.PLAY_NO = s.PLAYNO
-                 JOIN goods gd ON gd.GOODSNO = s.GOODSNO  -- ✅ `goods` 테이블을 `gd` 별칭으로 사용
-        WHERE g.USER_ID = #{userId}
+                 JOIN game gm ON r.PLAY_NO = gm.PLAY_NO
+                 LEFT JOIN storage s ON r.PLAY_NO = s.PLAYNO  -- ✅ STORAGE 테이블 조인
+                 LEFT JOIN goods g ON s.GOODSNO = g.GOODSNO  -- ✅ GOODS 테이블 조인
+        WHERE gm.PLAY_NO = #{gameNo}
           AND r.SALESDAY = #{selectedDay}
         GROUP BY r.SALESDAY, r.SALESMOUNT, r.QEEZEYN
-
-
     </select>
 
 
+
+
+    <select id="getGameCash" parameterType="string" resultType="int">
+        SELECT CASH FROM GAME WHERE PLAY_NO = #{gameNo}
+    </select>
 
 
 </mapper>

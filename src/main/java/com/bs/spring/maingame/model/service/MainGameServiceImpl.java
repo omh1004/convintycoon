@@ -48,6 +48,7 @@ public class MainGameServiceImpl implements MainGameService{
   public int saveRevenueAndUpdateStorage(Revenue revenue, List<Storage> storage){
     int result = dao.saveEndResult(session, revenue);
     int result2 = dao.moneyChange(session, revenue.getDayendcash(),revenue.getPlayNo());
+    int result3 = dao.daysChange(session, revenue.getSalesDay(), revenue.getPlayNo());
     storage.forEach(s->{
       dao.updateStorage(session, s);
     });
@@ -87,4 +88,10 @@ public class MainGameServiceImpl implements MainGameService{
 //
 //  @Override
 //  public int updateStorage(Storage storage){ return dao.updateStorage(session, storage); }
+
+
+  @Override
+  public int getGamePlayDay(String userId) {
+    return dao.getGamePlayDay(session, userId);
+  }
 }

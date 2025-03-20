@@ -10,15 +10,19 @@ public interface BankDao {
 
     List<Bank> getAllLoans(SqlSession session);
     Bank findLoanById(SqlSession session, int loanNo);
-    int updateLoanAmount(SqlSession session, int loanNo, int newAmount);
+//    int updateLoanAmount(SqlSession session, int loanNo, int newAmount);
 
 
     // ✅ 특정 회원의 대출 내역 조회 추가
-    List<Bank> getLoansByUserId(SqlSession session, String userId);
+    List<Bank> getLoansByGameNo(SqlSession session, String gameNo);
+
 
     int insertLoan(SqlSession session, Bank bank);
+    int updateGameLoan(SqlSession session, Map<String, Object> paramMap);
 
-    int getPlaydayByUserId(SqlSession session, String userId);
+    int getPlaydayByGameNo(SqlSession session, String gameNo);
 
     Map<String, Object> getDailyRevenue(SqlSession session, Map<String, Object> paramMap);
+
+    int getGameCash(SqlSession session, String gameNo);
 }
