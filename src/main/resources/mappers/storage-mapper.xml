@@ -35,6 +35,7 @@
     when storagelevel =5 then 130
     else 150
     end) as  storagelevel
+    ,storagelevel as storagecount
     ,cash
     ,playday
     from GAME

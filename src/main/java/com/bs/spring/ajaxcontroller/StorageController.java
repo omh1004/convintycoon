@@ -29,18 +29,36 @@ public class StorageController {
 
         Ordering subResult = storageService.selectGameInfo(gameNo);
 
-        result.get(0).setStoragelevel(subResult.getStoragelevel());
-        result.get(0).setAmount(subResult.getAmount());
-        result.get(0).setPlayday(subResult.getPlayday());
-        log.info("result결과::: "+result);
-        log.info("result잔금결과::: "+subResult.getAmount()+subResult.getPlayday()+subResult.getStoragelevel());
 
+        if(result.size()>0) {
+            result.get(0).setStoragelevel(subResult.getStoragelevel());
+            result.get(0).setAmount(subResult.getAmount());
+            result.get(0).setPlayday(subResult.getPlayday());
+            log.info("result결과::: " + result);
+            log.info("result잔금결과::: " + subResult.getAmount() + subResult.getPlayday() + subResult.getStoragelevel());
+        }
         if (result == null) {
             log.info(" 1. 상품전체조회");
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(result);
         }
+    }
+
+
+
+    @GetMapping("/gameInfo")
+    public ResponseEntity<Ordering> gameInfo(Integer gameNo){
+
+        Ordering subResult =   storageService.selectGameInfo(gameNo);
+
+        if (subResult == null) {
+            log.info(" 1. 상품전체조회");
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(subResult);
+        }
+
     }
 
     @PostMapping("/expandStorage")
@@ -52,4 +70,8 @@ public class StorageController {
                     .body("Storage expansion failed: " + e.getMessage());
         }
     }
+
+
+
+
 }
