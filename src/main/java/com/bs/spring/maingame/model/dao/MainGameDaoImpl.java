@@ -92,4 +92,12 @@ public class MainGameDaoImpl implements MainGameDao {
     public int getGamePlayDay(SqlSession session, String userId) {
         return session.selectOne("maingame.getGamePlayDay", userId);
     }
+
+    @Override
+    public int daysChange(SqlSession session, Integer salesDay, Integer gameNo){
+        Map<String, Integer> params = new HashMap<>();
+        params.put("salesDay", salesDay);
+        params.put("gameNo", gameNo);
+        return session.update("maingame.daysChange",params);
+    }
 }

@@ -84,6 +84,13 @@
                )
     </insert>
 
+    <update id="updateGameLoan">
+        UPDATE GAME
+        SET CASH = CASH + #{loanMoney},
+            LOAN = LOAN + #{loanMoney}
+        WHERE PLAY_NO = #{gameNo}
+    </update>
+
     <select id="getPlaydayByGameNo" parameterType="String" resultType="int">
         SELECT MAX(playday)
         FROM game
@@ -120,16 +127,25 @@
             CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END AS "퀴즈혜택",
             r.SALESMOUNT * 0.2 AS "폐기수익",
             (r.SALESMOUNT + (CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END) + (r.SALESMOUNT * 0.2)) AS "총수입",
-            SUM(gd.ORDERPRICE * s.ORDERQUANTITY) AS "발주비용",
+            SUM(s.ORDERQUANTITY * g.ORDERPRICE) AS "발주비용",  -- ✅ STORAGE 테이블에서 발주 개수 가져오기
             20000 AS "운영비",
-            (SUM(gd.ORDERPRICE * s.ORDERQUANTITY) + 20000) AS "총지출",
-            ((r.SALESMOUNT + (CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END) + (r.SALESMOUNT * 0.2)) - (SUM(gd.ORDERPRICE * s.ORDERQUANTITY) + 20000)) AS "총계",
-            MAX(g.CASH) AS "잔고"
+            (SUM(s.ORDERQUANTITY * g.ORDERPRICE) + 20000) AS "총지출",
+            ((r.SALESMOUNT + (CASE WHEN r.QEEZEYN = 'Y' THEN r.SALESMOUNT * 0.05 ELSE 0 END) + (r.SALESMOUNT * 0.2)) - (SUM(s.ORDERQUANTITY * g.ORDERPRICE) + 20000)) AS "총계",
+            MAX(gm.CASH) AS "잔고"
         FROM revenue r
-                 JOIN game g ON r.PLAY_NO = g.PLAY_NO
-        WHERE g.PLAY_NO = #{gameNo}
+                 JOIN game gm ON r.PLAY_NO = gm.PLAY_NO
+                 LEFT JOIN storage s ON r.PLAY_NO = s.PLAYNO  -- ✅ STORAGE 테이블 조인
+                 LEFT JOIN goods g ON s.GOODSNO = g.GOODSNO  -- ✅ GOODS 테이블 조인
+        WHERE gm.PLAY_NO = #{gameNo}
           AND r.SALESDAY = #{selectedDay}
         GROUP BY r.SALESDAY, r.SALESMOUNT, r.QEEZEYN
+    </select>
+
+
+
+
+    <select id="getGameCash" parameterType="string" resultType="int">
+        SELECT CASH FROM GAME WHERE PLAY_NO = #{gameNo}
     </select>
 
 
