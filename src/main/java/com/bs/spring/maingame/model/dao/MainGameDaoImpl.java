@@ -1,5 +1,6 @@
 package com.bs.spring.maingame.model.dao;
 
+import com.bs.spring.bank.model.dto.Bank;
 import com.bs.spring.maingame.model.dto.Game;
 import com.bs.spring.maingame.model.dto.Product;
 import com.bs.spring.member.model.dto.Goods;
@@ -85,5 +86,15 @@ public class MainGameDaoImpl implements MainGameDao {
     @Override
     public int getMoneyData(SqlSession session, Integer gameNo){
         return session.selectOne("maingame.getMoneyData", gameNo);
+    }
+
+    @Override
+    public Game getCashAndLoan(SqlSession session, Integer gameNo){
+        return session.selectOne("maingame.getCashAndLoan", gameNo);
+    }
+
+    @Override
+    public List<Revenue> getQuizAndDispose(SqlSession session, Integer gameNo){
+        return session.selectList("maingame.getQuizAndDispose", gameNo);
     }
 }

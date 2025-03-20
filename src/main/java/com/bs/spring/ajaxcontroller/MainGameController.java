@@ -2,6 +2,7 @@ package com.bs.spring.ajaxcontroller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.bs.spring.maingame.model.dto.Game;
 import com.bs.spring.maingame.model.dto.Product;
@@ -96,5 +97,11 @@ public class MainGameController {
   public ResponseEntity moneyData(Integer gameNo){
     int money = service.getMoneyData(gameNo);
     return ResponseEntity.ok().body(money);
+  }
+
+  @RequestMapping("/gamefinal")
+  public ResponseEntity gamefinal(Integer gameNo){
+    Map<String,Object> cashloanquiz = service.getCashLoanQuiz(gameNo);
+    return ResponseEntity.ok().body(cashloanquiz);
   }
 }
