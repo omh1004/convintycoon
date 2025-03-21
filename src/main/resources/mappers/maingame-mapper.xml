@@ -56,7 +56,10 @@
     <update id="daysChange" parameterType="map">
         update game set playday=#{salesDay} where play_no=#{gameNo}
     </update>
-    <select id="quizAnswer" parameterType="int" resultType="_int">
-        select count(qeezeyn)
+    <select id="getCashAndLoan" parameterType="int" resultType="game">
+        select playday, cash, loan from game where play_no=#{gameNo}
+    </select>
+    <select id="getQuizAndDispose" parameterType="int" resultType="revenue">
+        select qeezeYN, disposeprice from revenue where play_no=#{gameNo}
     </select>
 </mapper>
