@@ -7,6 +7,7 @@ import com.bs.spring.member.model.dto.Goods;
 import com.bs.spring.member.model.dto.Storage;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MainGameService {
   int saveRevenueAndUpdateStorage(Revenue revenue, List<Storage> storage);
@@ -14,6 +15,7 @@ public interface MainGameService {
   int startNewGame(Game game);
   int moneyExpense(Integer price, Integer gameNo);
   int getMoneyData(Integer gameNo);
+  Map<String,Object> getCashLoanQuiz(Integer gameNo);
 //  int saveEndResult(Revenue revenue);
 //  int updateStorage(Storage storage);
   int getGamePlayDay(String userId);

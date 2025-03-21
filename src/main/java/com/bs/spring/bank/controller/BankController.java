@@ -4,6 +4,7 @@ import com.bs.spring.bank.model.dto.Bank;
 import com.bs.spring.bank.model.service.BankService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,7 +65,23 @@ public class BankController {
         return ResponseEntity.ok(revenueData);
     }
 
+//    @RequestMapping("/moneydata")
+//    public ResponseEntity moneyData(Integer gameNo){
+//        log.info("gameNO+:::"+gameNo);
+//        int money = service.getMoneyData(gameNo);
+//        return ResponseEntity.ok().body(money);
+//    }
 
+
+    @GetMapping("/moneydata")
+    public ResponseEntity<Integer> getMoneyData(@RequestParam("gameNo") String gameNo) {
+        try {
+            int cash = bankService.getGameCash(gameNo);
+            return ResponseEntity.ok(cash);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(0);
+        }
+    }
 
 
 }

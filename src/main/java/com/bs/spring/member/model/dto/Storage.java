@@ -19,6 +19,8 @@ public class Storage {
     private Integer saleprice;
     private Integer saledgree;
     private String  disposalyn;
+    private Integer expyn;
+    private Integer cash;
 }
 
 

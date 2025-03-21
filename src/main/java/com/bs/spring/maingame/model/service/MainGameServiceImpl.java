@@ -1,5 +1,6 @@
 package com.bs.spring.maingame.model.service;
 
+import com.bs.spring.bank.model.dto.Bank;
 import com.bs.spring.maingame.model.dto.Game;
 import com.bs.spring.maingame.model.dto.Product;
 import com.bs.spring.member.model.dto.Goods;
@@ -13,7 +14,9 @@ import com.bs.spring.maingame.model.dto.Revenue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -61,6 +64,22 @@ public class MainGameServiceImpl implements MainGameService{
   @Override
   public int getMoneyData(Integer gameNo){
     return dao.getMoneyData(session, gameNo);
+  }
+
+  @Override
+  @Transactional
+  public Map<String,Object> getCashLoanQuiz(Integer gameNo){
+    Map<String,Object> data = new HashMap<>();
+
+    // playday, cash, loan
+    Game cashAndLoan = dao.getCashAndLoan(session, gameNo);
+    // quizYN, disposal
+    List<Revenue> revenueList = dao.getQuizAndDispose(session, gameNo);
+
+    data.put("cashloan",cashAndLoan);
+    data.put("quizdisposal",revenueList);
+
+    return data;
   }
 //  @Override
 //  public int saveEndResult(Revenue revenue){

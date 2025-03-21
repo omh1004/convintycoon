@@ -18,9 +18,11 @@ public interface BankDao {
 
 
     int insertLoan(SqlSession session, Bank bank);
-    int updateCash(SqlSession session, Map<String, Object> paramMap);
+    int updateGameLoan(SqlSession session, Map<String, Object> paramMap);
 
     int getPlaydayByGameNo(SqlSession session, String gameNo);
 
     Map<String, Object> getDailyRevenue(SqlSession session, Map<String, Object> paramMap);
+
+    int getGameCash(SqlSession session, String gameNo);
 }

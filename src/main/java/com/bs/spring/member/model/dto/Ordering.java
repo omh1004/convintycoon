@@ -24,4 +24,5 @@ public class Ordering {
     private Integer storagelevel;
     private Integer amount;
     private Integer playday;
+    private Integer storagecount;
 }

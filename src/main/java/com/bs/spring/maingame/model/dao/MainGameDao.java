@@ -1,5 +1,6 @@
 package com.bs.spring.maingame.model.dao;
 
+import com.bs.spring.bank.model.dto.Bank;
 import com.bs.spring.maingame.model.dto.Game;
 import com.bs.spring.maingame.model.dto.Product;
 import com.bs.spring.member.model.dto.Goods;
@@ -10,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.bs.spring.maingame.model.dto.Revenue;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MainGameDao {
   int saveEndResult(SqlSession session, Revenue revenue);
@@ -23,4 +25,6 @@ public interface MainGameDao {
   int getMoneyData(SqlSession session, Integer gameNo);
   int getGamePlayDay(SqlSession session, String userId);
   int daysChange(SqlSession session, Integer salesDay, Integer gameNo);
+  Game getCashAndLoan(SqlSession session, Integer gameNo);
+  List<Revenue> getQuizAndDispose(SqlSession session, Integer gameNo);
 }
